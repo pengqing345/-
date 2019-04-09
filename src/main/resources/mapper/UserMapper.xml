@@ -24,14 +24,21 @@
      select * from `t_emp` where EMP_ID = #{userId}
     </select>
 
-    <select id="selectJobName" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="selectDeptName" parameterType="java.lang.String" resultType="java.lang.String">
         select DEPT_NAME deptName from t_dept td
-          left join t_emp_job tej on tj.DEPT_ID = tej.DEPT_ID
+          left join t_emp_job tej on td.DEPT_ID = tej.DEPT_ID
         left join t_emp te on tej.EMP_ID = te.EMP_ID
         where te.EMP_ID = #{empId}
     </select>
     <select id="selectAllEmp" resultMap="BaseResultMap" >
         select * from `t_emp`
+    </select>
+    <select id="selectJobName" parameterType="java.lang.String" resultType="java.lang.String">
+        select JOB_NAME jobName from t_job tj
+          left join t_emp_job tej on tj.JOB_ID = tej.JOB_ID
+        left join t_emp te on tej.EMP_ID = te.EMP_ID
+        where te.EMP_ID = #{empId}
+
     </select>
 
 </mapper>

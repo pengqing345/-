@@ -12,6 +12,15 @@ public class Emp {
    private String email;
    private Date createTime;
    private String deptName;
+   private String jobName;
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
 
     public String getDeptName() {
         return deptName;

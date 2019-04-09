@@ -7,6 +7,8 @@ import java.util.List;
 public interface EmpService {
       Emp selectByUserId(String userId);
 
+      String selectDeptName(String empId);
+
       String selectJobName(String empId);
 
       List<Emp> selectAllEmp();

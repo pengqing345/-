@@ -17,6 +17,8 @@ public interface UserMapper {
 
     Emp selectByUserId(@Param("userId") String userId);
 
+    String selectDeptName(@Param("empId") String empId);
+
     String selectJobName(@Param("empId") String empId);
 
     List<Emp> selectAllEmp();

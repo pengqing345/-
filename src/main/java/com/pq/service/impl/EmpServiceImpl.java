@@ -18,21 +18,29 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Emp selectByUserId(String userId) {
         Emp emp = userMapper.selectByUserId(userId);
-        String jobName = selectJobName(emp.getEmpId());
-        emp.setJobName(jobName);
+        String jobName = selectDeptName(emp.getEmpId());
+        emp.setDeptName(jobName);
+        String deptName = selectDeptName(emp.getEmpId());
+        emp.setDeptName(deptName);
         return emp;
     }
   //查询部门名字
     @Override
+    public String selectDeptName(String empId) {
+        return userMapper.selectDeptName(empId);
+    }
+
+    //查询职位名称
+    @Override
     public String selectJobName(String empId) {
         return userMapper.selectJobName(empId);
     }
-
     //查询所有个人信息
     @Override
     public List<Emp> selectAllEmp() {
         List<Emp> emps = userMapper.selectAllEmp();
         for (Emp emp:emps) {
+          emp.setDeptName(selectDeptName(emp.getEmpId()));
           emp.setJobName(selectJobName(emp.getEmpId()));
         }
         return emps;
