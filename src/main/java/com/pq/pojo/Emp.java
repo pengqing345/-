@@ -11,10 +11,14 @@ public class Emp {
    private String phone;
    private String email;
    private Date createTime;
-   private String jobName;
+   private String deptName;
 
-    public String getJobName() {
-        return jobName;
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
     public String getCard() {
@@ -25,9 +29,7 @@ public class Emp {
         this.card = card;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
+
 
     public String getEmail() {
         return email;
