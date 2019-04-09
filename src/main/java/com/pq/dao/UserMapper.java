@@ -19,5 +19,5 @@ public interface UserMapper {
 
     String selectJobName(@Param("empId") String empId);
 
-
+    List<Emp> selectAllEmp();
 }

@@ -24,8 +24,12 @@
      select * from `t_emp` where EMP_ID = #{userId}
     </select>
 
-    <select id="selectJobName" parameterType="java.lang.String">
+    <select id="selectJobName" parameterType="java.lang.String" resultType="java.lang.String">
         select JOB_NAME jobName from t_job tj left join t_emp_job tej on tj.JOB_ID = tej.JOB_ID left join t_emp te on tej.EMP_ID = te.EMP_ID
         where te.EMP_ID = #{empId}
     </select>
+    <select id="selectAllEmp" resultType="com.pq.pojo.Emp">
+        select * from `t_emp`
+    </select>
+
 </mapper>

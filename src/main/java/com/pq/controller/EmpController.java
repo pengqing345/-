@@ -23,4 +23,10 @@ public class EmpController {
         return  new ResultContent(0,"",emp);
     }
 
+    @RequestMapping("/allInfo")
+    @ResponseBody
+    public ResultContent selectAllEmp(){
+        return new ResultContent(0,"",empService.selectAllEmp());
+    }
+
 }
