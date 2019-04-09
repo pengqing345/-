@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Emp {
    private String empId;
-
    private String empName;
    private String sex;
    private Integer age;
+   private String card;
    private String phone;
    private String email;
    private Date createTime;
@@ -15,6 +15,14 @@ public class Emp {
 
     public String getJobName() {
         return jobName;
+    }
+
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(String card) {
+        this.card = card;
     }
 
     public void setJobName(String jobName) {

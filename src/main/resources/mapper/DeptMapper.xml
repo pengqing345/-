@@ -4,12 +4,12 @@
 <mapper namespace="com.pq.dao.DeptMapper">
 
     <select id="selectAll" resultType="com.pq.pojo.Dept">
-        select DEPT_ID deptId,DEPT_NAME deptName,DEPT_REMARK deptRrmark from t_dept
+        select DEPT_ID deptId,DEPT_NAME deptName,DEPT_REMARK deptRemark from t_dept
     </select>
     <select id="selectCount" resultType="java.lang.Integer">
         select count(*) from t_emp te
          left join t_emp_job tej on te.EMP_ID = tej.EMP_ID
-        left join t_dept te on tej.DEPT_ID = te.DEPT_ID
-        where te.DEPT_ID = #{deptId}
+        left join t_dept td on tej.DEPT_ID = td.DEPT_ID
+        where td.DEPT_ID = #{deptId}
     </select>
 </mapper>

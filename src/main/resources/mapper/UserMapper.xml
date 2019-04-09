@@ -7,6 +7,7 @@
         <result column="EMP_NAME" property="empName" jdbcType="VARCHAR" />
         <result column="SEX" property="sex" jdbcType="VARCHAR" />
         <result column="AGE" property="age" jdbcType="INTEGER" />
+        <result column="CARD" property="card" jdbcType="VARCHAR" />
         <result column="PHONE" property="phone" jdbcType="VARCHAR" />
         <result column="EMAIL" property="email" jdbcType="VARCHAR" />
         <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
@@ -14,7 +15,6 @@
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
     </update>
-
 
     <select id="selectAll" resultType="com.pq.pojo.User">
         select USER_ID userId ,USER_NAME userName,USER_PASSWORD password from `t_user`
@@ -28,7 +28,7 @@
         select JOB_NAME jobName from t_job tj left join t_emp_job tej on tj.JOB_ID = tej.JOB_ID left join t_emp te on tej.EMP_ID = te.EMP_ID
         where te.EMP_ID = #{empId}
     </select>
-    <select id="selectAllEmp" resultType="com.pq.pojo.Emp">
+    <select id="selectAllEmp" resultMap="BaseResultMap" resultType="com.pq.pojo.Emp">
         select * from `t_emp`
     </select>
 
