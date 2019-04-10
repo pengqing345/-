@@ -28,4 +28,9 @@ public class DeptServiceImpl implements DeptService {
     public Integer count(String deptId) {
         return deptMapper.selectCount(deptId);
     }
+
+    @Override
+    public Integer delByDeptId(String deptId) {
+        return deptMapper.delByDeptId(deptId);
+    }
 }

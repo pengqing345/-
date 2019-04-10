@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pq.dao.AttendMapper">
+    <insert id="insertAttend" parameterType="com.pq.pojo.Attend">
+        INSERT INTO t_attend
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attendId != null">
+                ATTEND_ID,
+            </if>
+            <if test="attendDate != null">
+                ATTEND_DATE,
+            </if>
+            <if test="attentMorning != null" >
+                ATTEND_MORNING,
+            </if>
+            <if test="attentEvening != null">
+                ATTEND_EVENING,
+            </if>
+            <if test="workHours != null">
+                WORK_HOURS,
+            </if>
+            <if test="absence != null">
+                ABSENCE,
+            </if>
+            <if test="attendStatus != null">
+                ATTEND_STATUS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attendId != null">
+                #{attendId},
+            </if>
+            <if test="attendDate != null">
+                #{attendDate},
+            </if>
+            <if test="attentMorning != null" >
+                #{attentMorning,jdbcTyoe=DATETIME},
+            </if>
+            <if test="attentEvening != null">
+                #{attentEvening,jdbcTyoe=DATETIME},
+            </if>
+            <if test="workHours != null">
+                #{workHours},
+            </if>
+            <if test="absence != null">
+                #{absence},
+            </if>
+            <if test="attendStatus != null">
+                #{attendStatus},
+            </if>
+        </trim>
+
+    </insert>
+
+
+    <insert id="insertRelation" parameterType="com.pq.pojo.AttendRelation">
+       INSERT INTO t_user_attend
+       <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="userAttendId != null">
+               USER_ATTEND_ID,
+           </if>
+           <if test="userId != null">
+               USER_ID,
+           </if>
+           <if test="attendId != null" >
+               ATTEND_ID,
+           </if>
+           <if test="remark != null">
+               REMARK,
+           </if>
+       </trim>
+       <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="userAttendId != null">
+               #{userAttendId},
+           </if>
+           <if test="userId != null">
+               #{userId},
+           </if>
+           <if test="attendId != null" >
+               #{attendId},
+           </if>
+           <if test="remark != null">
+               #{remark},
+           </if>
+       </trim>
+    </insert>
+    <select id="selectRelationByUserId" resultType="java.lang.String">
+        SELECT ATTEND_ID FROM t_user_attend WHERE USER_ID = #{userId}
+    </select>
+
+</mapper>

@@ -20,4 +20,10 @@ public class DeptController {
     public ResultContent selectAll(){
         return  new ResultContent(0,"",deptService.selectAllDept());
     }
+
+    @RequestMapping("/del")
+    @ResponseBody
+    public ResultContent delByDeptId(String deptId){
+        return  new ResultContent(0,"",deptService.delByDeptId(deptId));
+    }
 }

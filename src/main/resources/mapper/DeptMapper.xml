@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pq.dao.DeptMapper">
+    <delete id="delByDeptId">
+      DELETE FROM t_dept WHERE DEPT_ID = #{deptId}
+    </delete>
 
     <select id="selectAll" resultType="com.pq.pojo.Dept">
         select DEPT_ID deptId,DEPT_NAME deptName,DEPT_REMARK deptRemark from t_dept

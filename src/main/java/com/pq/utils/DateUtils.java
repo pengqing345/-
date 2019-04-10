@@ -1,5 +1,6 @@
 package com.pq.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +20,34 @@ public class DateUtils {
         return  sbf.format(date);
     }
 
+    public static Long getHours(String startDate, String endDate){
+        try {
+            SimpleDateFormat sbf = new SimpleDateFormat("HH:mm:ss");
+            Date parse1 = sbf.parse(startDate);
+            Date parse2 = sbf.parse(endDate);
+            Long diff =parse2.getTime() - parse1.getTime();
+            Long hours = diff/(1000 * 60 * 60);
+            return hours;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+       return null;
+    }
+    public static Integer compareDate(String lDate,String sDate){
+        try {
+            SimpleDateFormat sbf = new SimpleDateFormat("HH:mm");
+            Date parse1 = sbf.parse(lDate);
+            Date parse2 = sbf.parse(sDate);
+            if(parse1.getTime() > parse2.getTime()){
+                return  0;
+            }else{
+                return 1;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
    public static String getWeek(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
