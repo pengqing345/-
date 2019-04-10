@@ -45,4 +45,15 @@ public class EmpServiceImpl implements EmpService {
         }
         return emps;
     }
+    //删除用户和部门的关系
+    @Override
+    public Integer delRelation(String empId) {
+        return userMapper.delRelation(empId);
+    }
+    //删除用户信息
+    @Override
+    public Integer delEmp(String empId) {
+         delRelation(empId);
+         return userMapper.delEmp(empId);
+    }
 }

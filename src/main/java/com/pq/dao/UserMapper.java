@@ -22,4 +22,8 @@ public interface UserMapper {
     String selectJobName(@Param("empId") String empId);
 
     List<Emp> selectAllEmp();
+
+    Integer delRelation(@Param("empId") String empId);
+
+    Integer delEmp(@Param("empId") String empId);
 }

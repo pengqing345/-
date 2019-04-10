@@ -29,4 +29,9 @@ public class EmpController {
         return new ResultContent(0,"",empService.selectAllEmp());
     }
 
+    @RequestMapping("/del")
+    @ResponseBody
+    public ResultContent delEmp(String empId){
+       return  new ResultContent(0,"",empService.delEmp(empId));
+    }
 }

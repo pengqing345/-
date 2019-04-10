@@ -15,6 +15,12 @@
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
     </update>
+    <delete id="delRelation">
+        DELETE FROM t_emp_job WHERE EMP_ID = #{empId}
+     </delete>
+    <delete id="delEmp">
+        DELETE FROM t_emp WHERE EMP_ID = #{empId}
+    </delete>
 
     <select id="selectAll" resultType="com.pq.pojo.User">
         select USER_ID userId ,USER_NAME userName,USER_PASSWORD password from `t_user`

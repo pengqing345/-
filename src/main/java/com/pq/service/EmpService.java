@@ -12,4 +12,8 @@ public interface EmpService {
       String selectJobName(String empId);
 
       List<Emp> selectAllEmp();
+
+      Integer delRelation(String empId);
+
+      Integer delEmp(String empId);
 }
