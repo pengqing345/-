@@ -1,6 +1,7 @@
 package com.pq.controller;
 
 
+import com.pq.pojo.Dept;
 import com.pq.service.DeptService;
 import com.pq.utils.ResultContent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,11 @@ public class DeptController {
     @ResponseBody
     public ResultContent delByDeptId(String deptId){
         return  new ResultContent(0,"",deptService.delByDeptId(deptId));
+    }
+
+    @RequestMapping(value = "/insert",method = RequestMethod.GET )
+    @ResponseBody
+    public ResultContent insertDept(Dept dept){
+        return  new ResultContent(0,"",deptService.insertDept(dept));
     }
 }

@@ -13,4 +13,6 @@ public interface DeptMapper {
     Integer selectCount(@Param("deptId") String deptId);
 
     Integer delByDeptId(@Param("deptId") String deptId);
+
+    Integer insertDept(Dept dept);
 }

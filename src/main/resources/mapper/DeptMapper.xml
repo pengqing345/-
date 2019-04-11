@@ -2,6 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pq.dao.DeptMapper">
+    <insert id="insertDept">
+        INSERT INTO t_dept
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                DEPT_ID,
+            </if>
+            <if test="deptName != null">
+                DEPT_NAME,
+            </if>
+            <if test="deptRemark != null" >
+                DEPT_REMARK,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                #{deptId},
+            </if>
+            <if test="deptName != null">
+                #{deptName},
+            </if>
+            <if test="deptRemark != null" >
+                #{deptRemark},
+            </if>
+        </trim>
+
+    </insert>
     <delete id="delByDeptId">
       DELETE FROM t_dept WHERE DEPT_ID = #{deptId}
     </delete>
