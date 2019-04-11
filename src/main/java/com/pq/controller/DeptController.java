@@ -6,6 +6,7 @@ import com.pq.utils.ResultContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -21,7 +22,7 @@ public class DeptController {
         return  new ResultContent(0,"",deptService.selectAllDept());
     }
 
-    @RequestMapping("/del")
+    @RequestMapping(value = "/del",method = RequestMethod.POST)
     @ResponseBody
     public ResultContent delByDeptId(String deptId){
         return  new ResultContent(0,"",deptService.delByDeptId(deptId));

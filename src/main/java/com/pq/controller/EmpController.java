@@ -7,6 +7,7 @@ import com.pq.utils.ResultContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -29,7 +30,7 @@ public class EmpController {
         return new ResultContent(0,"",empService.selectAllEmp());
     }
 
-    @RequestMapping("/del")
+    @RequestMapping(value = "/del",method = RequestMethod.POST)
     @ResponseBody
     public ResultContent delEmp(String empId){
        return  new ResultContent(0,"",empService.delEmp(empId));
