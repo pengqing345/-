@@ -19,7 +19,7 @@ public class EmpServiceImpl implements EmpService {
     public Emp selectByUserId(String userId) {
         Emp emp = userMapper.selectByUserId(userId);
         String jobName = selectDeptName(emp.getEmpId());
-        emp.setDeptName(jobName);
+        emp.setJobName(jobName);
         String deptName = selectDeptName(emp.getEmpId());
         emp.setDeptName(deptName);
         return emp;
