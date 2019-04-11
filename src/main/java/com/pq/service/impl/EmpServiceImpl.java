@@ -18,7 +18,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Emp selectByUserId(String userId) {
         Emp emp = userMapper.selectByUserId(userId);
-        String jobName = selectDeptName(emp.getEmpId());
+        String jobName = selectJobName(emp.getEmpId());
         emp.setJobName(jobName);
         String deptName = selectDeptName(emp.getEmpId());
         emp.setDeptName(deptName);
