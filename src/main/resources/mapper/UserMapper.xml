@@ -11,6 +11,7 @@
         <result column="PHONE" property="phone" jdbcType="VARCHAR" />
         <result column="EMAIL" property="email" jdbcType="VARCHAR" />
         <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="STATUS" property="status" jdbcType="INTEGER" />
     </resultMap>
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
