@@ -1,17 +1,19 @@
 package com.pq.pojo;
 
+import java.util.List;
+
 public class Dept {
     private String deptId;
     private String deptName;
     private String deptRemark;
     private Integer count;
-    private String jobName;
+    private List<String> jobName;
 
-    public String getJobName() {
+    public List<String> getJobName() {
         return jobName;
     }
 
-    public void setJobName(String jobName) {
+    public void setJobName(List<String> jobName) {
         this.jobName = jobName;
     }
 

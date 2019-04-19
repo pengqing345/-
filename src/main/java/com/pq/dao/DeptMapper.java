@@ -17,5 +17,5 @@ public interface DeptMapper {
 
     Integer insertDept(Dept dept);
 
-    String selectByDeptId(@Param("deptId") String deptId);
+    List<String> selectByDeptId(@Param("deptId") String deptId);
 }
