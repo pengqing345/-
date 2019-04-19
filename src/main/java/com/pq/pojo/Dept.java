@@ -5,6 +5,15 @@ public class Dept {
     private String deptName;
     private String deptRemark;
     private Integer count;
+    private String jobName;
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
 
     public String getDeptId() {
         return deptId;

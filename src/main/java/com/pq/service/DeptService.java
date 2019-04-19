@@ -9,4 +9,5 @@ public interface DeptService {
     Integer count(String deptId);
     Integer delByDeptId(String deptId);
     Integer insertDept(Dept dept);
+    String selectByDeptId(String deptId);
 }

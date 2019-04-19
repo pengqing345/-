@@ -22,6 +22,7 @@ public class DeptServiceImpl implements DeptService {
         List<Dept> depts = deptMapper.selectAll();
         for (Dept dept : depts) {
             dept.setCount(count(dept.getDeptId()));
+            dept.setJobName(selectByDeptId(dept.getDeptId()));
         }
         return depts;
     }
@@ -44,5 +45,10 @@ public class DeptServiceImpl implements DeptService {
         String deptId = GetRandon.getRandom(16);
         dept.setDeptId(deptId);
         return deptMapper.insertDept(dept);
+    }
+    // 查询部门下的职位
+    @Override
+    public String selectByDeptId(String deptId) {
+        return deptMapper.selectByDeptId(deptId);
     }
 }

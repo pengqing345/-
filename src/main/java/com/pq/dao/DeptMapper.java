@@ -1,6 +1,7 @@
 package com.pq.dao;
 
 import com.pq.pojo.Dept;
+import com.pq.pojo.Job;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,6 @@ public interface DeptMapper {
     Integer delByDeptId(@Param("deptId") String deptId);
 
     Integer insertDept(Dept dept);
+
+    String selectByDeptId(@Param("deptId") String deptId);
 }

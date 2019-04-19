@@ -20,9 +20,14 @@ public class DateUtils {
         return  sbf.format(date);
     }
 
+    public static  String getTimes(Date date){
+        SimpleDateFormat sbf = new SimpleDateFormat("HH:mm");
+        return  sbf.format(date);
+    }
+
     public static Long getHours(String startDate, String endDate){
         try {
-            SimpleDateFormat sbf = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat sbf = new SimpleDateFormat("HH:mm");
             Date parse1 = sbf.parse(startDate);
             Date parse2 = sbf.parse(endDate);
             Long diff =parse2.getTime() - parse1.getTime();
