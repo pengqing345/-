@@ -23,9 +23,6 @@
             <if test="absence != null">
                 ABSENCE,
             </if>
-            <if test="attendStatus != null">
-                ATTEND_STATUS,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="attendId != null">
@@ -35,19 +32,16 @@
                 #{attendDate},
             </if>
             <if test="attentMorning != null" >
-                #{attentMorning,jdbcTyoe=DATETIME},
+                #{attentMorning},
             </if>
             <if test="attentEvening != null">
-                #{attentEvening,jdbcTyoe=DATETIME},
+                #{attentEvening},
             </if>
             <if test="workHours != null">
                 #{workHours},
             </if>
             <if test="absence != null">
                 #{absence},
-            </if>
-            <if test="attendStatus != null">
-                #{attendStatus},
             </if>
         </trim>
 
@@ -85,8 +79,57 @@
            </if>
        </trim>
     </insert>
+    <update id="updateAttend">
+     UPDATE t_attend SET
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attendId != null">
+                ATTEND_ID,
+            </if>
+            <if test="attendDate != null">
+                ATTEND_DATE,
+            </if>
+            <if test="attentMorning != null" >
+                ATTEND_MORNING,
+            </if>
+            <if test="attentEvening != null">
+                ATTEND_EVENING,
+            </if>
+            <if test="workHours != null">
+                WORK_HOURS,
+            </if>
+            <if test="absence != null">
+                ABSENCE,
+            </if>
+        </trim>
+        WHERE
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attendId != null">
+                #{attendId},
+            </if>
+            <if test="attendDate != null">
+                #{attendDate},
+            </if>
+            <if test="attentMorning != null" >
+                #{attentMorning},
+            </if>
+            <if test="attentEvening != null">
+                #{attentEvening},
+            </if>
+            <if test="workHours != null">
+                #{workHours},
+            </if>
+            <if test="absence != null">
+                #{absence},
+            </if>
+        </trim>
+
+    </update>
+
     <select id="selectRelationByUserId" resultType="java.lang.String">
         SELECT ATTEND_ID FROM t_user_attend WHERE USER_ID = #{userId}
+    </select>
+    <select id="selectByAttendId" resultType="com.pq.pojo.Attend">
+        SELECT * FROM t_attend WHERE ATTEND_ID = #{attendId}
     </select>
 
 </mapper>

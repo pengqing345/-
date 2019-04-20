@@ -19,7 +19,10 @@ public class DateUtils {
         SimpleDateFormat sbf = new SimpleDateFormat("MM月dd日");
         return  sbf.format(date);
     }
-
+    public static String getFillDateAndTime(Date date){
+        SimpleDateFormat sbf = new SimpleDateFormat("yyyy年-MM月-dd日 HH:mm:ss");
+        return  sbf.format(date);
+    }
     public static  String getTimes(Date date){
         SimpleDateFormat sbf = new SimpleDateFormat("HH:mm");
         return  sbf.format(date);

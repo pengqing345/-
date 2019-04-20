@@ -5,11 +5,9 @@ import java.util.Date;
 public class Attend {
     private String attendId;
     private String attendDate;
-    private Date attentMorning;
-    private Date attentEvening;
+    private String attentMorning;
+    private String attentEvening;
     private Integer workHours;
-    private Integer absence;//缺勤时长
-    private Integer attendStatus;//考勤状态
 
     public String getAttendId() {
         return attendId;
@@ -27,19 +25,19 @@ public class Attend {
         this.attendDate = attendDate;
     }
 
-    public Date getAttentMorning() {
+    public String getAttentMorning() {
         return attentMorning;
     }
 
-    public void setAttentMorning(Date attentMorning) {
+    public void setAttentMorning(String attentMorning) {
         this.attentMorning = attentMorning;
     }
 
-    public Date getAttentEvening() {
+    public String getAttentEvening() {
         return attentEvening;
     }
 
-    public void setAttentEvening(Date attentEvening) {
+    public void setAttentEvening(String attentEvening) {
         this.attentEvening = attentEvening;
     }
 
@@ -51,19 +49,4 @@ public class Attend {
         this.workHours = workHours;
     }
 
-    public Integer getAbsence() {
-        return absence;
-    }
-
-    public void setAbsence(Integer absence) {
-        this.absence = absence;
-    }
-
-    public Integer getAttendStatus() {
-        return attendStatus;
-    }
-
-    public void setAttendStatus(Integer attendStatus) {
-        this.attendStatus = attendStatus;
-    }
 }
