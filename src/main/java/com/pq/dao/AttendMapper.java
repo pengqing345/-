@@ -5,6 +5,8 @@ import com.pq.pojo.AttendRelation;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AttendMapper {
 
@@ -17,4 +19,14 @@ public interface AttendMapper {
     int updateAttend(Attend attend);
 
     Attend selectByAttendId(@Param("attendId") String attendId);
+
+    String selectForDeptName(@Param("userId") String userId);
+
+    String selectForJobName(@Param("userId") String userId);
+
+    List<Attend> selectAll();
+
+   Integer countForWork(@Param("userId") String userId ,@Param("startTime") String startTime, @Param("endTime") String endTime);
+
+    String selectForEmpName(@Param("userId")String userId);
 }

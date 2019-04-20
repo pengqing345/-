@@ -11,7 +11,7 @@ import java.util.Date;
 public class DateUtils {
 
    public  static String getFillDate(Date date){
-        SimpleDateFormat sbf = new SimpleDateFormat("yyyy年-MM月-dd日");
+        SimpleDateFormat sbf = new SimpleDateFormat("yyyy-MM-dd");
         return  sbf.format(date);
     }
 

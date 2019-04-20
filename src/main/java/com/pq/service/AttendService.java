@@ -9,4 +9,6 @@ public interface AttendService {
     ResultContent insertAttend(String userId);
     //更新考勤信息
     ResultContent updateAttend(String userId);
+
+    ResultContent selectAll();
 }

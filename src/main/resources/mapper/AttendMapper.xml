@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pq.dao.AttendMapper">
+    <resultMap id="BaseResultMap" type="com.pq.pojo.Attend">
+        <id column="ATTEND_ID" property="attendId" jdbcType="VARCHAR"/>
+        <result column="ATTEND_DATE" property="attendDate" jdbcType="VARCHAR"/>
+        <result column="ATTEND_MORNING" property="attentMorning" jdbcType="VARCHAR"/>
+        <result column="ATTEND_EVENING" property="attentEvening" jdbcType="VARCHAR"/>
+        <result column="WORK_HOURS" property="workHours" jdbcType="INTEGER"/>
+        <result column="ABSENCE" property="absence" jdbcType="INTEGER"/>
+    </resultMap>
     <insert id="insertAttend" parameterType="com.pq.pojo.Attend">
         INSERT INTO t_attend
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -11,7 +19,7 @@
             <if test="attendDate != null">
                 ATTEND_DATE,
             </if>
-            <if test="attentMorning != null" >
+            <if test="attentMorning != null">
                 ATTEND_MORNING,
             </if>
             <if test="attentEvening != null">
@@ -31,7 +39,7 @@
             <if test="attendDate != null">
                 #{attendDate},
             </if>
-            <if test="attentMorning != null" >
+            <if test="attentMorning != null">
                 #{attentMorning},
             </if>
             <if test="attentEvening != null">
@@ -49,38 +57,38 @@
 
 
     <insert id="insertRelation" parameterType="com.pq.pojo.AttendRelation">
-       INSERT INTO t_user_attend
-       <trim prefix="values (" suffix=")" suffixOverrides=",">
-           <if test="userAttendId != null">
-               USER_ATTEND_ID,
-           </if>
-           <if test="userId != null">
-               USER_ID,
-           </if>
-           <if test="attendId != null" >
-               ATTEND_ID,
-           </if>
-           <if test="remark != null">
-               REMARK,
-           </if>
-       </trim>
-       <trim prefix="values (" suffix=")" suffixOverrides=",">
-           <if test="userAttendId != null">
-               #{userAttendId},
-           </if>
-           <if test="userId != null">
-               #{userId},
-           </if>
-           <if test="attendId != null" >
-               #{attendId},
-           </if>
-           <if test="remark != null">
-               #{remark},
-           </if>
-       </trim>
+        INSERT INTO t_user_attend
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userAttendId != null">
+                USER_ATTEND_ID,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="attendId != null">
+                ATTEND_ID,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userAttendId != null">
+                #{userAttendId},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="attendId != null">
+                #{attendId},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
     </insert>
     <update id="updateAttend">
-     UPDATE t_attend SET
+        UPDATE t_attend SET
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="attendId != null">
                 ATTEND_ID,
@@ -88,7 +96,7 @@
             <if test="attendDate != null">
                 ATTEND_DATE,
             </if>
-            <if test="attentMorning != null" >
+            <if test="attentMorning != null">
                 ATTEND_MORNING,
             </if>
             <if test="attentEvening != null">
@@ -109,7 +117,7 @@
             <if test="attendDate != null">
                 #{attendDate},
             </if>
-            <if test="attentMorning != null" >
+            <if test="attentMorning != null">
                 #{attentMorning},
             </if>
             <if test="attentEvening != null">
@@ -130,6 +138,30 @@
     </select>
     <select id="selectByAttendId" resultType="com.pq.pojo.Attend">
         SELECT * FROM t_attend WHERE ATTEND_ID = #{attendId}
+    </select>
+    <select id="selectForDeptName" resultType="java.lang.String">
+        SELECT DEPT_NAME FROM t_dept td
+        LEFT JOIN t_emp_job tej ON td.DEPT_ID = tej.DEPT_ID
+        LEFT JOIN t_user_attend tua ON tej.EMP_ID = tua.USER_ID
+        WHERE tua.USER_ID = #{userId}
+    </select>
+    <select id="selectForJobName" resultType="java.lang.String">
+            SELECT JOB_NAME FROM t_job tj
+            LEFT JOIN t_emp_job tej ON tj.JOB_ID = tej.JOB_ID
+            LEFT JOIN t_user_attend tua ON tej.EMP_ID = tua.USER_ID
+            WHERE tua.USER_ID = #{userId}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+       SELECT * FROM t_attend
+    </select>
+
+    <select id="selectForEmpName" resultType="java.lang.String">
+       SELECT EMP_NAME FROM t_emp WHERE EMP_ID = #{userId}
+    </select>
+    <select id="countForWork" resultType="java.lang.Integer">
+               SELECT COUNT(*) FROM  t_attend ta
+               LEFT JOIN t_user_attend tua ON ta.ATTEND_ID = tua.ATTEND_ID
+               WHERE tua.USER_ID = #{userId} AND ta.ATTEND_MORNING BETWEEN #{startTime} AND #{endTime};
     </select>
 
 </mapper>

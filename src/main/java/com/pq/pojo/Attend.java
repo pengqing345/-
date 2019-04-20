@@ -1,6 +1,6 @@
 package com.pq.pojo;
 
-import java.util.Date;
+
 
 public class Attend {
     private String attendId;
@@ -8,6 +8,33 @@ public class Attend {
     private String attentMorning;
     private String attentEvening;
     private Integer workHours;
+    private Integer absence;//缺勤天数
+    private String deptName;
+    private String jobName;
+
+    public Integer getAbsence() {
+        return absence;
+    }
+
+    public void setAbsence(Integer absence) {
+        this.absence = absence;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
 
     public String getAttendId() {
         return attendId;

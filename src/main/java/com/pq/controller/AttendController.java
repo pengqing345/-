@@ -15,14 +15,31 @@ public class AttendController {
     @Autowired
     private AttendService attendService;
 
-    @RequestMapping("/add")
+    @RequestMapping("/up")
     @ResponseBody
-    public ResultContent addAttend(Attend attend , String userId){
+    public ResultContent addAttend(String userId){
          if(userId != null && !userId.equals("")){
              attendService.insertRelation(userId);
+             ResultContent resultContent = attendService.insertAttend(userId);
+             return resultContent;
          }
-        ResultContent resultContent = attendService.insertAttend(attend, userId);
-         return resultContent;
+        return new ResultContent(-1,"userId不能为空",null);
+    }
+
+    @RequestMapping("/down")
+    @ResponseBody
+    public ResultContent updateAttend(String userId){
+        if(userId != null && !userId.equals("")){
+            ResultContent resultContent = attendService.updateAttend(userId);
+            return resultContent;
+        }
+        return new ResultContent(-1,"userId不能为空",null);
+    }
+
+    @RequestMapping("/all")
+    @ResponseBody
+    public ResultContent selectAll(){
+        return attendService.selectAll();
     }
 
 }
