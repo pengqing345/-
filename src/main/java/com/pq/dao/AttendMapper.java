@@ -14,7 +14,7 @@ public interface AttendMapper {
 
     int insertAttend(Attend attend);
 
-    String selectRelationByUserId(@Param("userId") String userId);
+    List<String> selectRelationByUserId(@Param("userId") String userId);
 
     int updateAttend(Attend attend);
 

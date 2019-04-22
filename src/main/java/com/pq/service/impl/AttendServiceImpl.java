@@ -28,18 +28,18 @@ public class AttendServiceImpl implements AttendService {
     private UserMapper userMapper;
 
     @Override
-    public ResultContent insertRelation(String userId) {
+    public Integer insertRelation(String userId) {
         AttendRelation attendRelation = new AttendRelation();
         attendRelation.setUserId(userId);
-        String attendId = GetRandon.getRandom(16);
+        String attendId = "12" + GetRandon.getRandom(14);
         attendRelation.setAttendId(attendId);
-        String userAttendId = GetRandon.getRandom(16);
+        String userAttendId = "12"+ GetRandon.getRandom(14);
         attendRelation.setUserAttendId(userAttendId);
         String empName = attendMapper.selectForEmpName(userId);
         String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
-        attendRelation.setRemark(empName+"-"+fillDate.split("-")[1] +"+打卡记录");
+        attendRelation.setRemark(empName + "-" + fillDate.split("-")[1] + "-打卡记录");
         int i = attendMapper.insertRelation(attendRelation);
-        return new ResultContent(0, "", i);
+        return i;
     }
 
     /*
@@ -48,14 +48,14 @@ public class AttendServiceImpl implements AttendService {
     @Override
     public ResultContent insertAttend(String userId) {
         Attend attend = new Attend();
-        String attendId = attendMapper.selectRelationByUserId(userId);
-        attend.setAttendId(attendId);
+        List<String> attendId = attendMapper.selectRelationByUserId(userId);
+        attend.setAttendId(attendId.get(attendId.size() - 1));
         long timeMillis = System.currentTimeMillis();
         Date date = new Date(timeMillis);
-        attend.setAttentMorning(DateUtils.getFillDateAndTime(date));
+        attend.setAttentMorning(DateUtils.getTimes(date));
         attend.setAttendDate(DateUtils.getFillDate(date));
         int i = attendMapper.insertAttend(attend);
-        return new ResultContent(0, "", i);
+        return new ResultContent(0, "", attend);
     }
 
     /*
@@ -63,11 +63,12 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResultContent updateAttend(String userId) {
-        Attend attend = attendMapper.selectByAttendId(attendMapper.selectRelationByUserId(userId));
+        List<String> strings = attendMapper.selectRelationByUserId(userId);
+        Attend attend = attendMapper.selectByAttendId(strings.get(strings.size() - 1));
         long timeMillis = System.currentTimeMillis();
         Date date = new Date(timeMillis);
-        attend.setAttentEvening(DateUtils.getFillDateAndTime(date));
-        Long hours = DateUtils.getHours(attend.getAttentMorning().split(" ")[1], DateUtils.getTimes(date));
+        attend.setAttentEvening(DateUtils.getTimes(date));
+        Long hours = DateUtils.getHours(attend.getAttentMorning(), DateUtils.getTimes(date));
         attend.setWorkHours(Integer.parseInt(String.valueOf(hours)));
         int i = attendMapper.updateAttend(attend);
         return new ResultContent(0, "", i);
@@ -78,12 +79,12 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResultContent selectAll() {
-        List<AllAttend>  allAttends = new ArrayList<>();
+        List<AllAttend> allAttends = new ArrayList<>();
         List<Emp> emps = userMapper.selectAllEmp();
-        for (Emp emp:emps) {
+        for (Emp emp : emps) {
             AllAttend allAttend = new AllAttend();
             String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
-            String times =  fillDate.split("-")[1];
+            String times = fillDate.split("-")[1];
             int i = Integer.parseInt(times);
             Integer integer = attendMapper.countForWork(emp.getEmpId(), fillDate.split("-")[0] + "-" + (i - 1) + "-01", fillDate.split("-")[0] + "-" + i + "-01");
             String jobName = attendMapper.selectForJobName(emp.getEmpId());
@@ -92,12 +93,29 @@ public class AttendServiceImpl implements AttendService {
             allAttend.setJobName(jobName);
             allAttend.setUserId(emp.getEmpId());
             allAttend.setAttend(integer);
-            if(integer < 23){
-                allAttend.setAbsence(22-integer);
-            }else{
-                allAttend.setAbsence(23-integer);
+            if (integer < 23) {
+                allAttend.setAbsence(22 - integer);
+            } else {
+                allAttend.setAbsence(23 - integer);
             }
+            allAttends.add(allAttend);
         }
-        return  new ResultContent(0,"",allAttends);
+        return new ResultContent(0, "", allAttends);
+    }
+
+    /*
+     * 查询个人考勤信息
+     */
+    @Override
+    public ResultContent selectByUserId(String userId) {
+        List<Attend> attends = new ArrayList<>();
+        List<String> attendIds = attendMapper.selectRelationByUserId(userId);
+        for (String attendId : attendIds) {
+            Attend attend = attendMapper.selectByAttendId(attendId);
+            attend.setJobName(attendMapper.selectForJobName(userId));
+            attend.setDeptName(attendMapper.selectForDeptName(userId));
+            attends.add(attend);
+        }
+        return new ResultContent(0, "", attends);
     }
 }

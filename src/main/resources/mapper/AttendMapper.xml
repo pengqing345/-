@@ -12,7 +12,7 @@
     </resultMap>
     <insert id="insertAttend" parameterType="com.pq.pojo.Attend">
         INSERT INTO t_attend
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="attendId != null">
                 ATTEND_ID,
             </if>
@@ -58,7 +58,7 @@
 
     <insert id="insertRelation" parameterType="com.pq.pojo.AttendRelation">
         INSERT INTO t_user_attend
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userAttendId != null">
                 USER_ATTEND_ID,
             </if>
@@ -74,82 +74,56 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userAttendId != null">
-                #{userAttendId},
+                #{userAttendId,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-                #{userId},
+                #{userId,jdbcType=VARCHAR},
             </if>
             <if test="attendId != null">
-                #{attendId},
+                #{attendId,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
-                #{remark},
+                #{remark,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
-    <update id="updateAttend">
+    <update id="updateAttend" parameterType="com.pq.pojo.Attend">
         UPDATE t_attend SET
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="attendId != null">
-                ATTEND_ID,
-            </if>
+        <trim  suffixOverrides=",">
             <if test="attendDate != null">
-                ATTEND_DATE,
+                ATTEND_DATE = #{attendDate},
             </if>
             <if test="attentMorning != null">
-                ATTEND_MORNING,
+                ATTEND_MORNING = #{attentMorning},
             </if>
             <if test="attentEvening != null">
-                ATTEND_EVENING,
+                ATTEND_EVENING = #{attentEvening},
             </if>
             <if test="workHours != null">
-                WORK_HOURS,
+                WORK_HOURS = #{workHours},
             </if>
             <if test="absence != null">
-                ABSENCE,
+                ABSENCE = #{absence},
             </if>
         </trim>
-        WHERE
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="attendId != null">
-                #{attendId},
-            </if>
-            <if test="attendDate != null">
-                #{attendDate},
-            </if>
-            <if test="attentMorning != null">
-                #{attentMorning},
-            </if>
-            <if test="attentEvening != null">
-                #{attentEvening},
-            </if>
-            <if test="workHours != null">
-                #{workHours},
-            </if>
-            <if test="absence != null">
-                #{absence},
-            </if>
-        </trim>
-
+        WHERE  ATTEND_ID = #{attendId}
     </update>
 
     <select id="selectRelationByUserId" resultType="java.lang.String">
         SELECT ATTEND_ID FROM t_user_attend WHERE USER_ID = #{userId}
     </select>
-    <select id="selectByAttendId" resultType="com.pq.pojo.Attend">
+    <select id="selectByAttendId" resultMap="BaseResultMap">
         SELECT * FROM t_attend WHERE ATTEND_ID = #{attendId}
     </select>
     <select id="selectForDeptName" resultType="java.lang.String">
         SELECT DEPT_NAME FROM t_dept td
         LEFT JOIN t_emp_job tej ON td.DEPT_ID = tej.DEPT_ID
-        LEFT JOIN t_user_attend tua ON tej.EMP_ID = tua.USER_ID
-        WHERE tua.USER_ID = #{userId}
+        WHERE tej.EMP_ID = #{userId}
     </select>
     <select id="selectForJobName" resultType="java.lang.String">
             SELECT JOB_NAME FROM t_job tj
             LEFT JOIN t_emp_job tej ON tj.JOB_ID = tej.JOB_ID
-            LEFT JOIN t_user_attend tua ON tej.EMP_ID = tua.USER_ID
-            WHERE tua.USER_ID = #{userId}
+            WHERE tej.EMP_ID = #{userId}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
        SELECT * FROM t_attend
@@ -159,9 +133,9 @@
        SELECT EMP_NAME FROM t_emp WHERE EMP_ID = #{userId}
     </select>
     <select id="countForWork" resultType="java.lang.Integer">
-               SELECT COUNT(*) FROM  t_attend ta
-               LEFT JOIN t_user_attend tua ON ta.ATTEND_ID = tua.ATTEND_ID
-               WHERE tua.USER_ID = #{userId} AND ta.ATTEND_MORNING BETWEEN #{startTime} AND #{endTime};
+        SELECT count(1) FROM  t_attend ta
+        LEFT JOIN t_user_attend tua ON ta.ATTEND_ID = tua.ATTEND_ID
+        WHERE tua.USER_ID = #{userId} AND ta.ATTEND_MORNING BETWEEN #{startTime} AND #{endTime};
     </select>
 
 </mapper>
