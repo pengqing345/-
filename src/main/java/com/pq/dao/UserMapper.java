@@ -15,6 +15,8 @@ public interface UserMapper {
 
     ResultContent updatePassword(User u);
 
+    String selectUserName(@Param("userId") String userId);
+
     Emp selectByUserId(@Param("userId") String userId);
 
     String selectDeptName(@Param("empId") String empId);

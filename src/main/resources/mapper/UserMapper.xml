@@ -47,5 +47,8 @@
         where te.EMP_ID = #{empId}
 
     </select>
+    <select id="selectUserName" resultType="java.lang.String">
+           SELECT USER_NAME from `t_user` where USER_ID = #{userId}
+    </select>
 
 </mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pq.dao.PowerMapper">
+    <resultMap id="BaseResultMap" type="com.pq.pojo.Role" >
+        <id column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+        <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+    <insert id="insertRelation">
+        INSERT INTO t_user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userRoleId != null">
+                USER_ROLE_ID,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="roleId != null">
+                ROLE_ID,
+            </if>
+            <if test="remark != null" >
+                REMARK,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userRoleId != null">
+                #{userRoleId},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="roleId != null">
+                #{roleId},
+            </if>
+            <if test="remark != null" >
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+         SELECT * FROM t_role
+    </select>
+    <select id="countByRoleId" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM t_user_role tur LEFT JOIN t_role tr ON tur.ROLE_ID = tr.ROLE_ID WHERE tr.ROLE_ID = #{roleId}
+    </select>
+    <select id="selectUserName" resultType="java.lang.String">
+        SELECT tu.USER_NAME  FROM t_user tu
+        LEFT JOIN t_user_role tur ON tu.USER_ID = tur.USER_ID
+        LEFT JOIN t_role tr ON tur.ROLE_ID = tr.ROLE_ID
+        WHERE tr.ROLE_ID = #{roleId}
+    </select>
+    <select id="selectByRoleId" resultType="java.lang.String">
+        SELECT ROLE_NAME FROM t_role WHERE ROLE_ID = #{roleId}
+    </select>
+
+</mapper>
