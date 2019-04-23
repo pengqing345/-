@@ -28,7 +28,7 @@ public class AttendServiceImpl implements AttendService {
     private UserMapper userMapper;
 
     @Override
-    public Integer insertRelation(String userId) {
+    public AttendRelation insertRelation(String userId) {
         AttendRelation attendRelation = new AttendRelation();
         attendRelation.setUserId(userId);
         String attendId = "12" + GetRandon.getRandom(14);
@@ -38,8 +38,8 @@ public class AttendServiceImpl implements AttendService {
         String empName = attendMapper.selectForEmpName(userId);
         String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
         attendRelation.setRemark(empName + "-" + fillDate.split("-")[1] + "-打卡记录");
-        int i = attendMapper.insertRelation(attendRelation);
-        return i;
+         attendMapper.insertRelation(attendRelation);
+        return attendRelation;
     }
 
     /*
@@ -55,7 +55,7 @@ public class AttendServiceImpl implements AttendService {
         attend.setAttentMorning(DateUtils.getTimes(date));
         attend.setAttendDate(DateUtils.getFillDate(date));
         int i = attendMapper.insertAttend(attend);
-        return new ResultContent(0, "", attend);
+        return new ResultContent(0, "", i);
     }
 
     /*
@@ -117,5 +117,29 @@ public class AttendServiceImpl implements AttendService {
             attends.add(attend);
         }
         return new ResultContent(0, "", attends);
+    }
+     /*
+     * 查询是否有今日考勤信息
+     */
+    @Override
+    public Attend selectAttend(String userId) {
+        String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
+        int i = attendMapper.selectCountByUserId(userId, fillDate);
+        if(i != 1){
+            AttendRelation attendRelation = insertRelation(userId);
+            Attend attend = new Attend();
+            attend.setAttendId(attendRelation.getAttendId());
+            attend.setUpStatus(1);
+            attend.setDownStatus(1);
+            attendMapper.insertAttend(attend);
+            return attend;
+        }else{
+            List<String> attendIds = attendMapper.selectRelationByUserId(userId);
+            if(attendIds != null && attendIds.size() > 0) {
+                Attend attend = attendMapper.selectByAttendId(attendIds.get(attendIds.size() - 1));
+                return  attend ;
+            }
+        }
+        return  null ;
     }
 }

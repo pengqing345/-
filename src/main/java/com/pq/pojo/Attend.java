@@ -2,15 +2,33 @@ package com.pq.pojo;
 
 
 
-public class Attend {
+public class Attend  {
     private String attendId;
     private String attendDate;
     private String attentMorning;
     private String attentEvening;
     private Integer workHours;
+    private Integer upStatus;//上班打卡标志
+    private Integer downStatus;//下班打卡标志
     private Integer absence;//缺勤天数
     private String deptName;
     private String jobName;
+
+    public Integer getUpStatus() {
+        return upStatus;
+    }
+
+    public void setUpStatus(Integer upStatus) {
+        this.upStatus = upStatus;
+    }
+
+    public Integer getDownStatus() {
+        return downStatus;
+    }
+
+    public void setDownStatus(Integer downStatus) {
+        this.downStatus = downStatus;
+    }
 
     public Integer getAbsence() {
         return absence;

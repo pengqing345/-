@@ -1,6 +1,7 @@
 package com.pq.controller;
 
 
+import com.pq.pojo.Attend;
 import com.pq.service.AttendService;
 import com.pq.utils.ResultContent;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,6 +20,21 @@ public class AttendController {
     @Autowired
     private AttendService attendService;
 
+    @ApiOperation(value = "打卡检测", notes = "请求方式：GET" + "JAVA类：com.pq.service.attendService "
+            + "函数签名 ： ResultContent updateAttend（ " + "String userId);")
+    @ApiImplicitParams(
+            @ApiImplicitParam(paramType = "query", name = "userId", value = "userId", required = true, dataType = "String")
+    )
+    @RequestMapping(value = "/exist",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultContent selectCount(String userId) {
+        Attend attend = attendService.selectAttend(userId);
+        if(attend != null){
+             return  new ResultContent(0 ,"",attend);
+        }
+        return  new ResultContent(-1 ,"不能查到数据","");
+    }
+
     @ApiOperation(value = "上班打卡", notes = "请求方式：GET" + "JAVA类：com.pq.service.attendService "
             + "函数签名 ： ResultContent updateAttend（ " + "String userId);")
     @ApiImplicitParams(
@@ -28,10 +44,6 @@ public class AttendController {
     @ResponseBody
     public ResultContent addAttend(String userId) {
         if (userId != null && !userId.equals("")) {
-            Integer relation = attendService.insertRelation(userId);
-            if(relation != 1){
-                return new ResultContent(-1, "插入关系失败", "");
-            }
             ResultContent resultContent = attendService.insertAttend(userId);
             return resultContent;
         }

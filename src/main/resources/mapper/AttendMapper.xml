@@ -9,6 +9,8 @@
         <result column="ATTEND_EVENING" property="attentEvening" jdbcType="VARCHAR"/>
         <result column="WORK_HOURS" property="workHours" jdbcType="INTEGER"/>
         <result column="ABSENCE" property="absence" jdbcType="INTEGER"/>
+        <result column="UP_STATUS" property="upStatus" jdbcType="INTEGER"/>
+        <result column="DOWN_STATUS" property="downStatus" jdbcType="INTEGER"/>
     </resultMap>
     <insert id="insertAttend" parameterType="com.pq.pojo.Attend">
         INSERT INTO t_attend
@@ -136,6 +138,11 @@
         SELECT count(1) FROM  t_attend ta
         LEFT JOIN t_user_attend tua ON ta.ATTEND_ID = tua.ATTEND_ID
         WHERE tua.USER_ID = #{userId} AND ta.ATTEND_MORNING BETWEEN #{startTime} AND #{endTime};
+    </select>
+    <select id="selectCountByUserId" resultType="java.lang.Integer">
+        SELECT count(1) FROM t_attend ta
+        LEFT JOIN t_user_attend tua ON ta.ATTEND_ID = tua.ATTEND_ID
+        WHERE tua.USER_ID = #{userId} AND ta.ATTEND_DATE = #{date}
     </select>
 
 </mapper>

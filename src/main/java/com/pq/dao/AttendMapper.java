@@ -29,4 +29,6 @@ public interface AttendMapper {
    Integer countForWork(@Param("userId") String userId ,@Param("startTime") String startTime, @Param("endTime") String endTime);
 
     String selectForEmpName(@Param("userId")String userId);
+
+    int selectCountByUserId(@Param("userId") String userId , @Param("date")String date);
 }
