@@ -13,7 +13,7 @@ public interface PowerService {
     ResultContent selectByRoleId(String roleId);
 
     //删除角色关联信息
-    ResultContent delRelation(String userName);
+    ResultContent delRelation(String userName , String roleId);
 
     //查询没有在当前角色的用户
     ResultContent selectForOtherEmp(String roleId);

@@ -56,12 +56,15 @@ public class PowerController {
     @ApiOperation(value = "删除用户权限", notes = "请求方式：GET" + "JAVA类：com.pq.service.powerService "
             + "函数签名 ： ResultContent delRelation（ " + "String userName);")
     @ApiImplicitParams(
-            @ApiImplicitParam(paramType = "query", name = "userName", value = "用户名字", required = true, dataType = "String")
+            {
+                    @ApiImplicitParam(paramType = "query", name = "userName", value = "用户名字", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "roleId", value = "roleId", required = true, dataType = "String")
+            }
     )
     @RequestMapping(value = "/del", method = RequestMethod.GET)
     @ResponseBody
-    public ResultContent delRelation(String userName) {
-        return powerService.delRelation(userName);
+    public ResultContent delRelation(String userName,String roleId) {
+        return powerService.delRelation(userName,roleId);
     }
 
     @ApiOperation(value = "查询没有在当前角色的用户", notes = "请求方式：GET" + "JAVA类：com.pq.service.powerService "

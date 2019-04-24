@@ -58,22 +58,27 @@ public class PowerServiceImpl implements PowerService {
 
     //删除角色关联信息
     @Override
-    public ResultContent delRelation(String userName) {
-        return new ResultContent(0, "", powerMapper.delRelation(userName));
+    public ResultContent delRelation(String userName,String roleId) {
+        return new ResultContent(0, "", powerMapper.delRelation(userName , roleId));
     }
 
     //查询没有在当前角色的用户
     @Override
     public ResultContent selectForOtherEmp(String roleId) {
+        int i = 0;
         List<String> newUserName = new ArrayList<>();
         List<String> userNames = powerMapper.selectUserName(roleId);
         List<User> users = userMapper.selectAll();
         for (User user : users) {
             for (String userName : userNames) {
-                if (!user.getUserName().equals(userName)) {
-                    newUserName.add(user.getUserName());
+                if (user.getUserName().equals(userName)) {
+                    i++;
                 }
             }
+            if(i == 0){
+                newUserName.add(user.getUserName());
+            }
+            i = 0;
         }
         return new ResultContent(0, "", newUserName);
     }
