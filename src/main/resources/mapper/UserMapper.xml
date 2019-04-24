@@ -10,11 +10,43 @@
         <result column="CARD" property="card" jdbcType="VARCHAR" />
         <result column="PHONE" property="phone" jdbcType="VARCHAR" />
         <result column="EMAIL" property="email" jdbcType="VARCHAR" />
-        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
         <result column="STATUS" property="status" jdbcType="INTEGER" />
     </resultMap>
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
+    </update>
+    <update id="updateEmp">
+        UPDATE t_emp te
+        LEFT JOIN t_emp_job tej ON te.EMP_ID = tej.EMP_ID
+        <set>
+            <trim suffixOverrides=",">
+                <if test="emp.empName != null">
+                   te.EMP_NAME = #{emp.empName},
+                </if>
+                <if test="emp.sex != null">
+                    te.SEX = #{emp.sex},
+                </if>
+                <if test="emp.card != null">
+                    te.CARD = #{emp.card},
+                </if>
+                <if test="emp.age != null">
+                    te.AGE = #{emp.age},
+                </if>
+                <if test="emp.phone != null">
+                    te.PHONE = #{emp.phone},
+                </if>
+                <if test="emp.email != null">
+                    te.EMAIL = #{emp.email},
+                </if>
+                <if test="deptId != null">
+                    tej.DEPT_ID = #{deptId},
+                </if>
+                <if test="jobId != null">
+                    tej.JOB_ID = #{jobId},
+                </if>
+            </trim>
+        </set>
+        WHERE te.EMP_ID = #{emp.empId}
     </update>
     <delete id="delRelation">
         DELETE FROM t_emp_job WHERE EMP_ID = #{empId}

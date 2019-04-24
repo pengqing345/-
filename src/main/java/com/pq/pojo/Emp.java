@@ -1,6 +1,5 @@
 package com.pq.pojo;
 
-import java.util.Date;
 
 public class Emp {
    private String empId;
@@ -10,7 +9,6 @@ public class Emp {
    private String card;
    private String phone;
    private String email;
-   private Date createTime;
    private String deptName;
    private String jobName;
    private Integer status;
@@ -57,13 +55,6 @@ public class Emp {
         this.email = email;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 
     public String getEmpId() {
         return empId;

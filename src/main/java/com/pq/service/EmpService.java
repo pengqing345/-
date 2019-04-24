@@ -16,4 +16,6 @@ public interface EmpService {
       Integer delRelation(String empId);
 
       Integer delEmp(String empId);
+
+      Integer updateEmp(Emp emp,String deptId ,String jobId);
 }

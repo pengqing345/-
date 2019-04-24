@@ -34,6 +34,7 @@ public class PowerServiceImpl implements PowerService {
         return new ResultContent(0, "", roles);
     }
 
+
     //插入角色与用户关联信息
     @Override
     public ResultContent insertUserRelation(String roleId, String userId) {
@@ -44,5 +45,10 @@ public class PowerServiceImpl implements PowerService {
         roleRelation.setRemark(powerMapper.selectByRoleId(roleId) + "-" + userMapper.selectUserName(userId) + "关联信息");
         int i = powerMapper.insertRelation(roleRelation);
         return new ResultContent(0, "", i);
+    }
+
+    @Override
+    public ResultContent selectByRoleId(String roleId) {
+        return new ResultContent(0,"",powerMapper.selectUserName(roleId));
     }
 }

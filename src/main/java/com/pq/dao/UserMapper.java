@@ -28,4 +28,6 @@ public interface UserMapper {
     Integer delRelation(@Param("empId") String empId);
 
     Integer delEmp(@Param("empId") String empId);
+
+    Integer updateEmp(@Param("emp") Emp emp, @Param("deptId") String deptId, @Param("jobId") String jobId);
 }

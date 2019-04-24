@@ -25,19 +25,19 @@ public class EmpController {
     @ApiImplicitParams(
             @ApiImplicitParam(paramType = "query", name = "userId", value = "userId", required = true, dataType = "String")
     )
-    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
-    public ResultContent selectByUserId(String userId){
+    public ResultContent selectByUserId(String userId) {
         Emp emp = empService.selectByUserId(userId);
-        return  new ResultContent(0,"",emp);
+        return new ResultContent(0, "", emp);
     }
 
     @ApiOperation(value = "显示所有用户信息", notes = "请求方式：GET" + "JAVA类：com.pq.service.empService "
             + "函数签名 ：ResultContent selectByUserId")
-    @RequestMapping(value = "/allInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/allInfo", method = RequestMethod.GET)
     @ResponseBody
-    public ResultContent selectAllEmp(){
-        return new ResultContent(0,"",empService.selectAllEmp());
+    public ResultContent selectAllEmp() {
+        return new ResultContent(0, "", empService.selectAllEmp());
     }
 
     @ApiOperation(value = "删除个人信息", notes = "请求方式：POST" + "JAVA类：com.pq.service.empService "
@@ -45,9 +45,30 @@ public class EmpController {
     @ApiImplicitParams(
             @ApiImplicitParam(paramType = "query", name = "empId", value = "empId", required = true, dataType = "String")
     )
-    @RequestMapping(value = "/del",method = RequestMethod.POST)
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
     @ResponseBody
-    public ResultContent delEmp(String empId){
-       return  new ResultContent(0,"",empService.delEmp(empId));
+    public ResultContent delEmp(String empId) {
+        return new ResultContent(0, "", empService.delEmp(empId));
+    }
+
+    @ApiOperation(value = "修改用户信息", notes = "请求方式：POST" + "JAVA类：com.pq.service.empService "
+            + "函数签名 ：ResultContent updateEmp（ " + "Emp emp ,String deptId ,String jobId);")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "empId", value = "empId", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "empName", value = "用户姓名", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "sex", value = "用户性别", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "age", value = "用户年龄", required = false, dataType = "Integer"),
+                    @ApiImplicitParam(paramType = "query", name = "card", value = "用户身份证", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "phone", value = "用户电话", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "email", value = "用户邮箱", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptId", value = "deptId", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "jobId", value = "jobId", required = false, dataType = "String")
+            }
+    )
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultContent updateEmp(Emp emp, String deptId, String jobId) {
+        return new ResultContent(0, "", empService.updateEmp(emp, deptId, jobId));
     }
 }

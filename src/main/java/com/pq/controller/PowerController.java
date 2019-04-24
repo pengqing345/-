@@ -41,4 +41,15 @@ public class PowerController {
     public ResultContent insertRelation(String roleId, String userId) {
         return powerService.insertUserRelation(roleId, userId);
     }
+
+    @ApiOperation(value = "查询具体角色的旗下用户信息", notes = "请求方式：GET" + "JAVA类：com.pq.service.powerService "
+            + "函数签名 ： ResultContent selectByRoleId（ " + "String roleId);")
+    @ApiImplicitParams(
+            @ApiImplicitParam(paramType = "query", name = "roleId", value = "roleId", required = true, dataType = "String")
+    )
+    @RequestMapping(value = "/select", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultContent selectByRoleId(String roleId) {
+        return powerService.selectByRoleId(roleId);
+    }
 }

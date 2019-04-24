@@ -56,4 +56,9 @@ public class EmpServiceImpl implements EmpService {
          delRelation(empId);
          return userMapper.delEmp(empId);
     }
+    //修改用户信息
+    @Override
+    public Integer updateEmp(Emp emp, String deptId, String jobId) {
+        return userMapper.updateEmp(emp,deptId,jobId);
+    }
 }
