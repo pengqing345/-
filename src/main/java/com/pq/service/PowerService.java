@@ -14,4 +14,7 @@ public interface PowerService {
 
     //删除角色关联信息
     ResultContent delRelation(String userName);
+
+    //查询没有在当前角色的用户
+    ResultContent selectForOtherEmp(String roleId);
 }

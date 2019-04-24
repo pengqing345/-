@@ -64,4 +64,15 @@ public class PowerController {
         return powerService.delRelation(userName);
     }
 
+    @ApiOperation(value = "查询没有在当前角色的用户", notes = "请求方式：GET" + "JAVA类：com.pq.service.powerService "
+            + "函数签名 ： ResultContent selectForOtherEmp（ " + "String roleId);")
+    @ApiImplicitParams(
+            @ApiImplicitParam(paramType = "query", name = "roleId", value = "roleId", required = true, dataType = "String")
+    )
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultContent selectForOtherEmp(String roleId) {
+        return powerService.selectForOtherEmp(roleId);
+    }
+
 }
