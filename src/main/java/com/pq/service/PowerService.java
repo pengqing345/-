@@ -7,7 +7,7 @@ public interface PowerService {
     ResultContent selectAll();
 
     //添加用户的权限
-    ResultContent insertUserRelation(String roleId,String userId);
+    ResultContent insertUserRelation(String roleId,String userName);
 
     //查询具体角色的信息
     ResultContent selectByRoleId(String roleId);

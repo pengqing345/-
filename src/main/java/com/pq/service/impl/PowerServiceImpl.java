@@ -40,7 +40,8 @@ public class PowerServiceImpl implements PowerService {
 
     //插入角色与用户关联信息
     @Override
-    public ResultContent insertUserRelation(String roleId, String userId) {
+    public ResultContent insertUserRelation(String roleId, String userName) {
+        String userId = userMapper.selectUserId(userName);
         RoleRelation roleRelation = new RoleRelation();
         roleRelation.setUserRoleId(GetRandon.getRandom(16));
         roleRelation.setRoleId(roleId);

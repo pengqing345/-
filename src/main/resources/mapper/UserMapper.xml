@@ -82,5 +82,9 @@
     <select id="selectUserName" resultType="java.lang.String">
            SELECT USER_NAME from `t_user` where USER_ID = #{userId}
     </select>
+    <select id="selectUserId" resultType="java.lang.String">
+        SELECT USER_ID from `t_user` where USER_NAME = #{userName}
+    </select>
+
 
 </mapper>
