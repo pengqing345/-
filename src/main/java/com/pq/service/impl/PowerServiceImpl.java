@@ -51,4 +51,9 @@ public class PowerServiceImpl implements PowerService {
     public ResultContent selectByRoleId(String roleId) {
         return new ResultContent(0,"",powerMapper.selectUserName(roleId));
     }
+
+    @Override
+    public ResultContent delRelation(String userName) {
+        return new ResultContent(0,"",powerMapper.delRelation(userName));
+    }
 }

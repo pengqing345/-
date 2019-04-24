@@ -28,7 +28,7 @@ public class Swagger {
         return new ApiInfoBuilder().
                 title("人事管理API").
                 description("swagger的api文档").
-                termsOfServiceUrl("").contact("shikong").
+                termsOfServiceUrl("").contact("pq").
                 version("1.0").build();
     }
 }

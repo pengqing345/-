@@ -19,4 +19,6 @@ public interface PowerMapper {
     List<String> selectUserName(@Param("roleId")String roleId);
 
     int insertRelation(@Param("roleRelation")RoleRelation roleRelation);
+
+    int delRelation(@Param("userName")String userName);
 }
