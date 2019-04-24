@@ -38,8 +38,8 @@ public class PowerController {
     )
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
     @ResponseBody
-    public ResultContent insertRelation(String userName, String userId) {
-        return powerService.insertUserRelation(userName, userId);
+    public ResultContent insertRelation( String roleId, String userName) {
+        return powerService.insertUserRelation(roleId, userName);
     }
 
     @ApiOperation(value = "查询具体角色的旗下用户信息", notes = "请求方式：GET" + "JAVA类：com.pq.service.powerService "
