@@ -43,7 +43,7 @@ public class DeptController {
             + "函数签名 ：ResultContent insertDept( " + "Dept dept);")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "deptId", value = "deptId", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptId", value = "deptId", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "部门名称", value = "deptName", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "部门介绍", value = "deptRemark", required = false, dataType = "String")
             }
@@ -51,6 +51,9 @@ public class DeptController {
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
     @ResponseBody
     public ResultContent insertDept(Dept dept) {
-        return new ResultContent(0, "", deptService.insertDept(dept));
+        if(dept.getDeptId() != null ){
+            return new ResultContent(0, "",deptService.updateByDeptId(dept));
+        }
+        return new ResultContent(0, "",deptService.insertDept(dept));
     }
 }

@@ -28,6 +28,18 @@
         </trim>
 
     </insert>
+    <update id="updateByDeptId">
+        UPDATE t_dept SET
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptName != null">
+                DEPT_NAME = #{deptName},
+            </if>
+            <if test="deptRemark != null" >
+                DEPT_REMARK = #{deptRemark},
+            </if>
+        </trim>
+        WHERE DEPT_ID = #{deptId}
+    </update>
     <delete id="delByDeptId">
       DELETE FROM t_dept WHERE DEPT_ID = #{deptId}
     </delete>

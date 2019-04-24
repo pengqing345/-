@@ -10,4 +10,5 @@ public interface DeptService {
     Integer delByDeptId(String deptId);
     Integer insertDept(Dept dept);
     List<String> selectByDeptId(String deptId);
+    Integer updateByDeptId(Dept dept);
 }

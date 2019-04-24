@@ -46,9 +46,16 @@ public class DeptServiceImpl implements DeptService {
         dept.setDeptId(deptId);
         return deptMapper.insertDept(dept);
     }
+
     // 查询部门下的职位
     @Override
     public List<String> selectByDeptId(String deptId) {
         return deptMapper.selectByDeptId(deptId);
+    }
+
+    //跟新部门信息
+    @Override
+    public Integer updateByDeptId(Dept dept) {
+        return deptMapper.updateByDeptId(dept);
     }
 }
