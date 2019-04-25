@@ -1,6 +1,7 @@
 package com.pq.dao;
 
 import com.pq.pojo.Emp;
+import com.pq.pojo.EmpRelation;
 import com.pq.pojo.User;
 import com.pq.utils.ResultContent;
 import org.apache.ibatis.annotations.Param;
@@ -23,6 +24,10 @@ public interface UserMapper {
 
     String selectDeptName(@Param("empId") String empId);
 
+    String selectDeptId(@Param("deptName")String deptName);
+
+    String selectJobId(@Param("jobName")String jobName);
+
     String selectJobName(@Param("empId") String empId);
 
     List<Emp> selectAllEmp();
@@ -32,4 +37,8 @@ public interface UserMapper {
     Integer delEmp(@Param("empId") String empId);
 
     Integer updateEmp(@Param("emp") Emp emp, @Param("deptId") String deptId, @Param("jobId") String jobId);
+
+    Integer insertEmp(Emp emp);
+
+    Integer insertRelation(EmpRelation empRelation);
 }

@@ -71,4 +71,25 @@ public class EmpController {
     public ResultContent updateEmp(Emp emp, String deptId, String jobId) {
         return new ResultContent(0, "", empService.updateEmp(emp, deptId, jobId));
     }
+
+    @ApiOperation(value = "插入用户信息", notes = "请求方式：POST" + "JAVA类：com.pq.service.empService "
+            + "函数签名 ：ResultContent insertEmp（ " + "Emp emp );")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "query", name = "empId", value = "empId", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "empName", value = "用户姓名", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "sex", value = "用户性别", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "age", value = "用户年龄", required = false, dataType = "Integer"),
+                    @ApiImplicitParam(paramType = "query", name = "card", value = "用户身份证", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "phone", value = "用户电话", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "email", value = "用户邮箱", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptName", value = "部门名称", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "jobName", value = "职位名称", required = true, dataType = "String")
+            }
+    )
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultContent insertEmp(Emp emp) {
+        return new ResultContent(0, "", empService.insertEmp(emp));
+    }
 }

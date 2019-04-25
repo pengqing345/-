@@ -12,6 +12,92 @@
         <result column="EMAIL" property="email" jdbcType="VARCHAR" />
         <result column="STATUS" property="status" jdbcType="INTEGER" />
     </resultMap>
+    <insert id="insertEmp">
+        INSERT INTO t_emp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empName != null">
+              EMP_NAME ,
+            </if>
+            <if test="sex != null">
+                SEX ,
+            </if>
+            <if test="card != null">
+                CARD,
+            </if>
+            <if test="age != null">
+                AGE,
+            </if>
+            <if test="phone != null">
+                PHONE,
+            </if>
+            <if test="email != null">
+                EMAIL,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="empName != null">
+                #{empName} ,
+            </if>
+            <if test="sex != null">
+                #{sex} ,
+            </if>
+            <if test="card != null">
+                #{card},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertRelation">
+        INSERT INTO t_emp_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empParamId != null">
+                EMP_PARAM_ID ,
+            </if>
+            <if test="empId != null">
+                EMP_ID ,
+            </if>
+            <if test="deptId != null">
+                DEPT_ID,
+            </if>
+            <if test="jobId != null">
+                JOB_ID,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="empParamId != null">
+                #{empParamId} ,
+            </if>
+            <if test="empId != null">
+                #{empId} ,
+            </if>
+            <if test="deptId != null">
+                #{deptId},
+            </if>
+            <if test="jobId != null">
+                #{jobId},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
     </update>
@@ -21,7 +107,7 @@
         <set>
             <trim suffixOverrides=",">
                 <if test="emp.empName != null">
-                   te.EMP_NAME = #{emp.empName},
+                    te.EMP_NAME = #{emp.empName},
                 </if>
                 <if test="emp.sex != null">
                     te.SEX = #{emp.sex},
@@ -84,6 +170,12 @@
     </select>
     <select id="selectUserId" resultType="java.lang.String">
         SELECT USER_ID from `t_user` where USER_NAME = #{userName}
+    </select>
+    <select id="selectDeptId" resultType="java.lang.String">
+        SELECT DEPT_ID FROM t_dept WHERE DEPT_NAME = #{deptName}
+    </select>
+    <select id="selectJobId" resultType="java.lang.String">
+        SELECT JOB_ID FROM t_job WHERE JOB_NAME = #{jobName}
     </select>
 
 

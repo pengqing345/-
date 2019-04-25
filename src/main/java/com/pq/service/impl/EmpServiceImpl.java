@@ -2,7 +2,9 @@ package com.pq.service.impl;
 
 import com.pq.dao.UserMapper;
 import com.pq.pojo.Emp;
+import com.pq.pojo.EmpRelation;
 import com.pq.service.EmpService;
+import com.pq.utils.GetRandon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,5 +62,22 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Integer updateEmp(Emp emp, String deptId, String jobId) {
         return userMapper.updateEmp(emp,deptId,jobId);
+    }
+    //插入用户信息
+    @Override
+    public Integer insertEmp(Emp emp) {
+        EmpRelation empRelation = new EmpRelation();
+        String deptId = userMapper.selectDeptId(emp.getDeptName());
+        String jobId = userMapper.selectJobId(emp.getJobName());
+        String empParamId ="12"+GetRandon.getRandom(14);
+        empRelation.setEmpParamId(empParamId);
+        empRelation.setEmpId(emp.getEmpId());
+        empRelation.setDeptId(deptId);
+        empRelation.setJobId(jobId);
+        //先插入用户，部门，职位之间的关系
+        Integer integer = userMapper.insertRelation(empRelation);
+        //插入用户
+        userMapper.insertEmp(emp);
+        return integer;
     }
 }
