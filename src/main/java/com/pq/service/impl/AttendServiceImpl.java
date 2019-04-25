@@ -49,13 +49,14 @@ public class AttendServiceImpl implements AttendService {
     @Override
     public ResultContent insertAttend(String userId) {
         Attend attend = new Attend();
-        List<String> attendId = attendMapper.selectRelationByUserId(userId);
+        List<String> attendId = attendMapper.selectRelationByUserId(userId,null, null);
         attend.setAttendId(attendId.get(attendId.size() - 1));
         long timeMillis = System.currentTimeMillis();
         Date date = new Date(timeMillis);
         attend.setAttentMorning(DateUtils.getTimes(date));
         attend.setAttendDate(DateUtils.getFillDate(date));
-        int i = attendMapper.insertAttend(attend);
+        attend.setUpStatus(0);
+        int i = attendMapper.updateAttend(attend);
         return new ResultContent(0, "", i);
     }
 
@@ -64,13 +65,14 @@ public class AttendServiceImpl implements AttendService {
      */
     @Override
     public ResultContent updateAttend(String userId) {
-        List<String> strings = attendMapper.selectRelationByUserId(userId);
+        List<String> strings = attendMapper.selectRelationByUserId(userId,null,null);
         Attend attend = attendMapper.selectByAttendId(strings.get(strings.size() - 1));
         long timeMillis = System.currentTimeMillis();
         Date date = new Date(timeMillis);
         attend.setAttentEvening(DateUtils.getTimes(date));
         Long hours = DateUtils.getHours(attend.getAttentMorning(), DateUtils.getTimes(date));
         attend.setWorkHours(Integer.parseInt(String.valueOf(hours)));
+        attend.setDownStatus(0);
         int i = attendMapper.updateAttend(attend);
         return new ResultContent(0, "", i);
     }
@@ -87,7 +89,7 @@ public class AttendServiceImpl implements AttendService {
             String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
             String times = fillDate.split("-")[1];
             int i = Integer.parseInt(times);
-            Integer integer = attendMapper.countForWork(emp.getEmpId(), fillDate.split("-")[0] + "-" + (i - 1) + "-01", fillDate.split("-")[0] + "-" + i + "-01");
+            Integer integer = attendMapper.countForWork(emp.getEmpId(), fillDate.split("-")[0] + "-0" + (i - 1) + "-01", fillDate.split("-")[0] + "-0" + i + "-01");
             String jobName = attendMapper.selectForJobName(emp.getEmpId());
             String deptName = attendMapper.selectForDeptName(emp.getEmpId());
             String userName = userMapper.selectUserName(emp.getEmpId());
@@ -113,7 +115,12 @@ public class AttendServiceImpl implements AttendService {
     @Override
     public ResultContent selectByUserId(String userId) {
         List<Attend> attends = new ArrayList<>();
-        List<String> attendIds = attendMapper.selectRelationByUserId(userId);
+        String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
+        String times = fillDate.split("-")[1];
+        int i = Integer.parseInt(times);
+        String startTime = fillDate.split("-")[0] + "-0" + i + "-01";
+        String endTime = fillDate.split("-")[0] + "-0" + (i + 1) + "-01";
+        List<String> attendIds = attendMapper.selectRelationByUserId(userId,startTime,endTime);
         for (String attendId : attendIds) {
             Attend attend = attendMapper.selectByAttendId(attendId);
             attend.setJobName(attendMapper.selectForJobName(userId));
@@ -131,7 +138,7 @@ public class AttendServiceImpl implements AttendService {
     public Attend selectAttend(String userId) {
         String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
         int i = attendMapper.selectCountByUserId(userId, fillDate);
-        if(i != 1){
+        if(i == 0){
             AttendRelation attendRelation = insertRelation(userId);
             Attend attend = new Attend();
             attend.setAttendId(attendRelation.getAttendId());
@@ -140,7 +147,7 @@ public class AttendServiceImpl implements AttendService {
             attendMapper.insertAttend(attend);
             return attend;
         }else{
-            List<String> attendIds = attendMapper.selectRelationByUserId(userId);
+            List<String> attendIds = attendMapper.selectRelationByUserId(userId,null,null);
             if(attendIds != null && attendIds.size() > 0) {
                 Attend attend = attendMapper.selectByAttendId(attendIds.get(attendIds.size() - 1));
                 return  attend ;

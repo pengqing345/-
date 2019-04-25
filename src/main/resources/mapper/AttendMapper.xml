@@ -112,7 +112,11 @@
     </update>
 
     <select id="selectRelationByUserId" resultType="java.lang.String">
-        SELECT ATTEND_ID FROM t_user_attend WHERE USER_ID = #{userId}
+        SELECT tua.ATTEND_ID FROM t_user_attend tua
+        LEFT JOIN t_attend ta ON tua.ATTEND_ID = ta.ATTEND_ID
+        WHERE tua.USER_ID = #{userId}
+        <if test="startTime != null">
+         AND ta.ATTEND_DATE BETWEEN #{startTime} AND #{endTime}</if>
     </select>
     <select id="selectByAttendId" resultMap="BaseResultMap">
         SELECT * FROM t_attend WHERE ATTEND_ID = #{attendId}
