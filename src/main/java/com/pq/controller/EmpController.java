@@ -87,7 +87,7 @@ public class EmpController {
                     @ApiImplicitParam(paramType = "query", name = "jobName", value = "职位名称", required = true, dataType = "String")
             }
     )
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
     public ResultContent insertEmp(Emp emp) {
         return new ResultContent(0, "", empService.insertEmp(emp));

@@ -48,10 +48,10 @@ public class DeptController {
                     @ApiImplicitParam(paramType = "query", name = "部门介绍", value = "deptRemark", required = false, dataType = "String")
             }
     )
-    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
     public ResultContent insertDept(Dept dept) {
-        if(dept.getDeptId() != null ){
+        if(dept.getDeptId() != null && !dept.getDeptId().equals("") ){
             return new ResultContent(0, "",deptService.updateByDeptId(dept));
         }
         return new ResultContent(0, "",deptService.insertDept(dept));
