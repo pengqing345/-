@@ -24,7 +24,7 @@ public class DateUtils {
         return  sbf.format(date);
     }
     public static  String getTimes(Date date){
-        SimpleDateFormat sbf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sbf = new SimpleDateFormat("HH:mm:ss");
         return  sbf.format(date);
     }
 
