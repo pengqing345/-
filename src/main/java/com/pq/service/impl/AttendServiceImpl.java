@@ -54,7 +54,6 @@ public class AttendServiceImpl implements AttendService {
         long timeMillis = System.currentTimeMillis();
         Date date = new Date(timeMillis);
         attend.setAttentMorning(DateUtils.getTimes(date));
-        attend.setAttendDate(DateUtils.getFillDate(date));
         attend.setUpStatus(0);
         int i = attendMapper.updateAttend(attend);
         return new ResultContent(0, "", i);
@@ -139,11 +138,13 @@ public class AttendServiceImpl implements AttendService {
         String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
         int i = attendMapper.selectCountByUserId(userId, fillDate);
         if(i == 0){
+            String attendDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
             AttendRelation attendRelation = insertRelation(userId);
             Attend attend = new Attend();
             attend.setAttendId(attendRelation.getAttendId());
             attend.setUpStatus(1);
             attend.setDownStatus(1);
+            attend.setAttendDate(attendDate);
             attendMapper.insertAttend(attend);
             return attend;
         }else{

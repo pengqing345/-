@@ -99,7 +99,7 @@
         </trim>
     </insert>
     <insert id="insertUser">
-        INSERT INTO t_emp_job
+        INSERT INTO t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">
                 USER_ID ,
@@ -121,6 +121,7 @@
         <if test="password != null">
             #{password},
         </if>
+        </trim>
     </insert>
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
