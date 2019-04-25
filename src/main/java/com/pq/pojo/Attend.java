@@ -13,6 +13,24 @@ public class Attend  {
     private Integer absence;//缺勤天数
     private String deptName;
     private String jobName;
+    private String userName;
+    private String empName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
 
     public Integer getUpStatus() {
         return upStatus;

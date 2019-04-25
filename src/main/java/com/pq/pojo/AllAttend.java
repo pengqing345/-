@@ -4,8 +4,26 @@ public class AllAttend {
     private String userId;
     private String JobName;
     private String DeptName;
+    private String empName;
+    private String userName;
     private Integer absence;//缺勤天数
     private Integer attend;//出勤天数
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
 
     public String getUserId() {
         return userId;

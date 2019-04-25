@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -89,9 +90,12 @@ public class AttendServiceImpl implements AttendService {
             Integer integer = attendMapper.countForWork(emp.getEmpId(), fillDate.split("-")[0] + "-" + (i - 1) + "-01", fillDate.split("-")[0] + "-" + i + "-01");
             String jobName = attendMapper.selectForJobName(emp.getEmpId());
             String deptName = attendMapper.selectForDeptName(emp.getEmpId());
+            String userName = userMapper.selectUserName(emp.getEmpId());
             allAttend.setDeptName(deptName);
             allAttend.setJobName(jobName);
             allAttend.setUserId(emp.getEmpId());
+            allAttend.setEmpName(emp.getEmpName());
+            allAttend.setUserName(userName);
             allAttend.setAttend(integer);
             if (integer < 23) {
                 allAttend.setAbsence(22 - integer);
@@ -114,6 +118,8 @@ public class AttendServiceImpl implements AttendService {
             Attend attend = attendMapper.selectByAttendId(attendId);
             attend.setJobName(attendMapper.selectForJobName(userId));
             attend.setDeptName(attendMapper.selectForDeptName(userId));
+            attend.setEmpName(userMapper.selectByUserId(userId).getEmpName());
+            attend.setUserName(userMapper.selectUserName(userId));
             attends.add(attend);
         }
         return new ResultContent(0, "", attends);
