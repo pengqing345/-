@@ -117,6 +117,7 @@
         WHERE tua.USER_ID = #{userId}
         <if test="startTime != null">
          AND ta.ATTEND_DATE BETWEEN #{startTime} AND #{endTime}</if>
+        ORDER BY ta.ATTEND_DATE
     </select>
     <select id="selectByAttendId" resultMap="BaseResultMap">
         SELECT * FROM t_attend WHERE ATTEND_ID = #{attendId}
