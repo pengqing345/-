@@ -3,8 +3,10 @@ package com.pq.service.impl;
 import com.pq.dao.UserMapper;
 import com.pq.pojo.Emp;
 import com.pq.pojo.EmpRelation;
+import com.pq.pojo.User;
 import com.pq.service.EmpService;
 import com.pq.utils.GetRandon;
+import com.pq.utils.PinYinUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +80,11 @@ public class EmpServiceImpl implements EmpService {
         Integer integer = userMapper.insertRelation(empRelation);
         //插入用户
         userMapper.insertEmp(emp);
+        User user = new User();
+        user.setUserId(emp.getEmpId());
+        user.setUserName(PinYinUtil.converterToAllSpell(emp.getEmpName()));
+        user.setPassword("e10adc3949ba59abbe56e057f20f883e");
+        userMapper.insertUser(user);
         return integer;
     }
 }

@@ -4,6 +4,7 @@ import com.pq.pojo.Emp;
 import com.pq.pojo.EmpRelation;
 import com.pq.pojo.User;
 import com.pq.utils.ResultContent;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -41,4 +42,6 @@ public interface UserMapper {
     Integer insertEmp(Emp emp);
 
     Integer insertRelation(EmpRelation empRelation);
+
+    Integer insertUser(User user);
 }

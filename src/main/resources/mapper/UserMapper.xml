@@ -98,6 +98,30 @@
             </if>
         </trim>
     </insert>
+    <insert id="insertUser">
+        INSERT INTO t_emp_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                USER_ID ,
+            </if>
+            <if test="userName != null">
+                USER_NAME ,
+            </if>
+            <if test="password != null">
+                USER_PASSWORD,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+        <if test="userId != null">
+            #{userId},
+        </if>
+        <if test="userName != null">
+            #{userName},
+        </if>
+        <if test="password != null">
+            #{password},
+        </if>
+    </insert>
     <update id="updatePassword">
         update `t_user` set USER_PASSWORD = #{password} where USER_NAME=#{userName}
     </update>
