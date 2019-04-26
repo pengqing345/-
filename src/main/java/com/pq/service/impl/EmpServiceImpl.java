@@ -62,7 +62,9 @@ public class EmpServiceImpl implements EmpService {
     }
     //修改用户信息
     @Override
-    public Integer updateEmp(Emp emp, String deptId, String jobId) {
+    public Integer updateEmp(Emp emp) {
+        String deptId = userMapper.selectDeptId(emp.getDeptName());
+        String jobId = userMapper.selectJobId(emp.getJobName());
         return userMapper.updateEmp(emp,deptId,jobId);
     }
     //插入用户信息
