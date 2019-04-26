@@ -30,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ResultContent update(User u) {
-        return userMapper.updatePassword(u);
+        return new ResultContent(0,"", userMapper.updatePassword(u));
     }
 
 }

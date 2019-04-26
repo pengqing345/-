@@ -54,9 +54,9 @@
         where td.DEPT_ID = #{deptId}
     </select>
     <select id="selectByDeptId" resultType="java.lang.String">
-        SELECT JOB_NAME jobName FROM t_job tj LEFT JOIN t_emp_job tej ON tj.JOB_ID = tej.JOB_ID
-        LEFT JOIN t_dept td ON tej.DEPT_ID = td.DEPT_ID
-        WHERE td.DEPT_ID = #{deptId}
+        SELECT JOB_NAME jobName
+        FROM t_job
+        WHERE ATTACH_DEPT_ID = #{deptId}
     </select>
 
 </mapper>

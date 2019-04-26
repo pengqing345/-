@@ -3,7 +3,6 @@ package com.pq.dao;
 import com.pq.pojo.Emp;
 import com.pq.pojo.EmpRelation;
 import com.pq.pojo.User;
-import com.pq.utils.ResultContent;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +13,7 @@ public interface UserMapper {
 
     List<User> selectAll();
 
-    ResultContent updatePassword(User u);
+    int updatePassword(User u);
 
     String selectUserName(@Param("userId") String userId);
 
