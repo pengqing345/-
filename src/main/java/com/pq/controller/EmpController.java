@@ -71,8 +71,8 @@ public class EmpController {
     @ResponseBody
     public ResultContent insertEmp(Emp emp) {
         if (emp.getEmpId() != null && !emp.getEmpId().equals("")) {
-            return new ResultContent(0, "", empService.insertEmp(emp));
+            return new ResultContent(0, "", empService.updateEmp(emp));
         }
-        return new ResultContent(0, "", empService.updateEmp(emp));
+        return new ResultContent(0, "", empService.insertEmp(emp));
     }
 }
