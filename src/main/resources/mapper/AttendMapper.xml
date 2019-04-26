@@ -107,6 +107,12 @@
             <if test="absence != null">
                 ABSENCE = #{absence},
             </if>
+            <if test="upStatus != null">
+                UP_STATUS = #{upStatus},
+            </if>
+            <if test="downStatus != null">
+                DOWN_STATUS = #{downStatus},
+            </if>
         </trim>
         WHERE  ATTEND_ID = #{attendId}
     </update>
