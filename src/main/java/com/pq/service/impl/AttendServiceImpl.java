@@ -117,8 +117,8 @@ public class AttendServiceImpl implements AttendService {
         String fillDate = DateUtils.getFillDate(new Date(System.currentTimeMillis()));
         String times = fillDate.split("-")[1];
         int i = Integer.parseInt(times);
-        String startTime = fillDate.split("-")[0] + "-0" + i + "-01";
-        String endTime = fillDate.split("-")[0] + "-0" + (i + 1) + "-01";
+        String startTime = fillDate.split("-")[0] + "-0" +(i-1) + "-01";
+        String endTime = fillDate.split("-")[0] + "-0" + i  + "-01";
         List<String> attendIds = attendMapper.selectRelationByUserId(userId,startTime,endTime);
         for (String attendId : attendIds) {
             Attend attend = attendMapper.selectByAttendId(attendId);
