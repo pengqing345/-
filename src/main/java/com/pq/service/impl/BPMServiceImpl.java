@@ -10,6 +10,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class BPMServiceImpl implements BPMService {
 
     //个人任务的查询
     public List<BpmTask> selectBpm(String name) {
-        List<BpmTask> bpmTaskList = null;
+        List<BpmTask> bpmTaskList = new ArrayList<>();
         //任务办理人
         List<Task> list = processEngine.getTaskService()//
                 .createTaskQuery()//
@@ -86,11 +87,11 @@ public class BPMServiceImpl implements BPMService {
                 .list();
         if (list != null && list.size() > 0) {
             for (Task task : list) {
-                List<Procedure> procedureList = queryHistoricActivitiInstance(task.getProcessInstanceId());
                 BpmTask bpmTask = new BpmTask();
                 String id = task.getId();
                 String describtion = (String) taskService.getVariable(id, "describtion");
                 String processInstanceId = (String) taskService.getVariable(id, "processInstanceId");
+                List<Procedure> procedureList = queryHistoricActivitiInstance(task.getProcessInstanceId());
                 String startUserId = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult().getStartUserId();//获取发起人
                 bpmTask.setStartName(startUserId);
                 bpmTask.setProcessInstanceId(processInstanceId);
@@ -107,7 +108,7 @@ public class BPMServiceImpl implements BPMService {
 
     //查询流程经历了多少任务
     private List<Procedure> queryHistoricActivitiInstance(String processInstanceId){
-        List<Procedure> procedureList = null;
+        List<Procedure> procedureList = new ArrayList<>();
         //已进行了的流程信息
         List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).list();
         if (list != null && list.size() > 0) {

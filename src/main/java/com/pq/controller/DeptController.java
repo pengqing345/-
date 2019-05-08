@@ -44,8 +44,8 @@ public class DeptController {
     @ApiImplicitParams(
             {
                     @ApiImplicitParam(paramType = "query", name = "deptId", value = "deptId", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "部门名称", value = "deptName", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "部门介绍", value = "deptRemark", required = false, dataType = "String")
+                    @ApiImplicitParam(paramType = "query", name = "deptName", value = "部门名称", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptRemark", value = "部门介绍", required = false, dataType = "String")
             }
     )
     @RequestMapping(value = "/insert", method = RequestMethod.POST)

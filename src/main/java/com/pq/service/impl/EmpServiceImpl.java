@@ -74,6 +74,8 @@ public class EmpServiceImpl implements EmpService {
         String deptId = userMapper.selectDeptId(emp.getDeptName());
         String jobId = userMapper.selectJobId(emp.getJobName());
         String empParamId ="12"+GetRandon.getRandom(14);
+        String empId ="12"+GetRandon.getRandom(14);
+        emp.setEmpId(empId);
         empRelation.setEmpParamId(empParamId);
         empRelation.setEmpId(emp.getEmpId());
         empRelation.setDeptId(deptId);

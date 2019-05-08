@@ -22,10 +22,10 @@ public class BPMController {
             + "函数签名 ： ResultContent startBPM( " + "BPM bpm);")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "申请人名字", value = "empName", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "部门审批人名字", value = "deptName", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "公司审批人名字", value = "adminName", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "原因", value = "describtion", required = false, dataType = "String")
+                    @ApiImplicitParam(paramType = "query", name = "empName", value = "申请人名字", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "deptName", value = "部门审批人名字", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "adminName", value = "公司审批人名字", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "describtion", value = "原因", required = false, dataType = "String")
             }
     )
     @RequestMapping(value = "/start", method = RequestMethod.GET)
@@ -38,8 +38,8 @@ public class BPMController {
             + "函数签名 ： ResultContent completeBPM( " + "String HandleName,String startName);")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(paramType = "query", name = "申请人名字", value = "HandleName", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "部门审批人名字", value = "startName", required = true, dataType = "String")
+                    @ApiImplicitParam(paramType = "query", name = "HandleName", value = "申请人名字", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "startName", value = "发起人名字", required = true, dataType = "String")
             }
     )
     @RequestMapping(value = "/complete", method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class BPMController {
     @ApiOperation(value = "拒绝", notes = "请求方式：GET" + "JAVA类：com.pq.service.bpmService "
             + "函数签名 ：ResultContent refuseBPM( " + "String name);")
     @ApiImplicitParams(
-                    @ApiImplicitParam(paramType = "query", name = "处理人名字", value = "name", required = true, dataType = "String")
+                    @ApiImplicitParam(paramType = "query", name = "name", value = "处理人名字", required = true, dataType = "String")
     )
     @RequestMapping(value = "/refuse", method = RequestMethod.GET)
     @ResponseBody
@@ -62,7 +62,7 @@ public class BPMController {
     @ApiOperation(value = "查询当前任务", notes = "请求方式：GET" + "JAVA类：com.pq.service.bpmService "
             + "函数签名 ：ResultContent selectBpm( " + "String name);")
     @ApiImplicitParams(
-            @ApiImplicitParam(paramType = "query", name = "处理人名字", value = "name", required = true, dataType = "String")
+            @ApiImplicitParam(paramType = "query", name = "name", value = "处理人名字", required = true, dataType = "String")
     )
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     @ResponseBody
