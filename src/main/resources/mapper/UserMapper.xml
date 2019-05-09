@@ -15,6 +15,9 @@
     <insert id="insertEmp">
         INSERT INTO t_emp
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empId != null">
+                EMP_ID ,
+            </if>
             <if test="empName != null">
               EMP_NAME ,
             </if>
@@ -35,6 +38,9 @@
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="empId != null">
+                #{empId} ,
+            </if>
             <if test="empName != null">
                 #{empName} ,
             </if>
