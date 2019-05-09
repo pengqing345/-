@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/testm1556506078247" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1556506078247" name="" targetNamespace="http://www.activiti.org/testm1556506078247" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="apply" isClosed="false" isExecutable="true" processType="None" name="${empName}">
+  <process id="myProcess_1" isClosed="false" isExecutable="true" processType="None">
     <startEvent id="_2" name="StartEvent"/>
     <userTask activiti:assignee="${empName}" activiti:exclusive="true" id="_3" name="离职申请"/>
     <userTask activiti:assignee="${deptName}" activiti:exclusive="true" id="_4" name="部门意见"/>
@@ -9,18 +9,22 @@
     <sequenceFlow id="_7" sourceRef="_2" targetRef="_3"/>
     <sequenceFlow id="_8" sourceRef="_3" targetRef="_4"/>
     <endEvent id="_9" name="EndEvent"/>
-    <sequenceFlow id="_10" name="不同意?" sourceRef="_4" targetRef="_9">
+    <sequenceFlow id="_10" name="不同�?" sourceRef="_4" targetRef="_9">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${message=='error'}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="_11" name="EndEvent"/>
-    <sequenceFlow id="_12" name="不同意?" sourceRef="_5" targetRef="_11">
+    <sequenceFlow id="_12" name="不同�?" sourceRef="_5" targetRef="_11">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${message=='error'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_13" sourceRef="_5" targetRef="_6"/>
-    <sequenceFlow id="_14" sourceRef="_4" targetRef="_5"/>
+    <sequenceFlow id="_13" name="同意" sourceRef="_5" targetRef="_6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${message=='ok'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_14" name="同意" sourceRef="_4" targetRef="_5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${message=='ok'}]]></conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
-    <bpmndi:BPMNPlane bpmnElement="apply">
+    <bpmndi:BPMNPlane bpmnElement="myProcess_1">
       <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
         <dc:Bounds height="32.0" width="32.0" x="235.0" y="5.0"/>
         <bpmndi:BPMNLabel>
@@ -64,42 +68,42 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_13" id="BPMNEdge__13" sourceElement="_5" targetElement="_6">
-        <di:waypoint x="256.0" y="320.0"/>
+        <di:waypoint x="256.0" y="305.0"/>
         <di:waypoint x="256.0" y="355.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_12" id="BPMNEdge__12" sourceElement="_5" targetElement="_11">
-        <di:waypoint x="310.0" y="277.5"/>
+        <di:waypoint x="295.0" y="277.5"/>
         <di:waypoint x="350.0" y="276.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_14" id="BPMNEdge__14" sourceElement="_4" targetElement="_5">
-        <di:waypoint x="252.5" y="235.0"/>
+        <di:waypoint x="252.5" y="220.0"/>
         <di:waypoint x="252.5" y="250.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_2" targetElement="_3">
-        <di:waypoint x="251.0" y="52.0"/>
+        <di:waypoint x="251.0" y="37.0"/>
         <di:waypoint x="251.0" y="85.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="_3" targetElement="_4">
-        <di:waypoint x="252.5" y="155.0"/>
+        <di:waypoint x="252.5" y="140.0"/>
         <di:waypoint x="252.5" y="165.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_10" id="BPMNEdge__10" sourceElement="_4" targetElement="_9">
-        <di:waypoint x="310.0" y="192.5"/>
+        <di:waypoint x="295.0" y="192.5"/>
         <di:waypoint x="355.0" y="196.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="-1.0" x="0.0" y="-4.0"/>

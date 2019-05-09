@@ -26,6 +26,7 @@ public class BPMServiceImpl implements BPMService {
     //部署流程
     @Override
     public int startBPM(BPM bpm) {
+        bpm.setAdminName("狗李");
         RepositoryService repositoryService = processEngine.getRepositoryService();
         IdentityService identityService = processEngine.getIdentityService();
         repositoryService.createDeployment().addClasspathResource("diagram/apply.bpmn20.xml").deploy();
@@ -42,6 +43,7 @@ public class BPMServiceImpl implements BPMService {
     //完成任务
     @Override
     public int completeBPM(String HandleName, String startName) {
+        Map<String, Object> variables = new HashMap<String, Object>();
         List<Task> list = processEngine.getTaskService()//
                 .createTaskQuery()//
                 .taskAssignee(HandleName)//个人任务的查询
@@ -51,7 +53,8 @@ public class BPMServiceImpl implements BPMService {
                 //任务发起人名字
                 String startUserId = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult().getStartUserId();
                 if (startName.equals(startUserId)) {
-                    taskService.complete(task.getId());
+                    variables.put("message", "ok");
+                    taskService.complete(task.getId(),variables);
                 }
             }
         }
@@ -140,6 +143,7 @@ public class BPMServiceImpl implements BPMService {
                 if (taskService.getVariable(id, "describtion") == null || taskService.getVariable(id, "describtion").equals("")) {
                     taskService.setVariable(id, "describtion", bpm.getDescribtion());
                 }
+                taskService.complete(id);
                 //String processInstanceId = (String)taskService.getVariable(id, "processInstanceId");
                 // String startUserId = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getStartUserId();//获取发起人
             }
