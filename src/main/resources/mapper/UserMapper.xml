@@ -159,6 +159,9 @@
         </set>
         WHERE te.EMP_ID = #{emp.empId}
     </update>
+    <update id="updateStatues">
+         UPDATE t_emp SET STATUS = 1 WHERE EMP_NAME = #{empName}
+    </update>
     <delete id="delRelation">
         DELETE FROM t_emp_job WHERE EMP_ID = #{empId}
      </delete>

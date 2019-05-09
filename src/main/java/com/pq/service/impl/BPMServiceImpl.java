@@ -1,12 +1,15 @@
 package com.pq.service.impl;
 
+import com.pq.dao.UserMapper;
 import com.pq.pojo.BPM;
 import com.pq.pojo.BpmTask;
 import com.pq.pojo.Procedure;
 import com.pq.service.BPMService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,8 @@ public class BPMServiceImpl implements BPMService {
     private ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml").buildProcessEngine();
     private TaskService taskService = processEngine.getTaskService();
     private HistoryService historyService = processEngine.getHistoryService();
+  @Autowired
+  private UserMapper userMapper;
 
     //部署流程
     @Override
@@ -55,6 +60,14 @@ public class BPMServiceImpl implements BPMService {
                 if (startName.equals(startUserId)) {
                     variables.put("message", "ok");
                     taskService.complete(task.getId(),variables);
+                    ProcessInstance nowPi = processEngine.getRuntimeService()
+                            .createProcessInstanceQuery()
+                            .processInstanceId(task.getProcessInstanceId())
+                            .singleResult();
+                    if(nowPi == null){
+                        System.out.println("流程结束");
+                        userMapper.updateStatues(startUserId);
+                    }
                 }
             }
         }

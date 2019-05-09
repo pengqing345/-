@@ -42,4 +42,6 @@ public interface UserMapper {
     Integer insertRelation(EmpRelation empRelation);
 
     Integer insertUser(User user);
+
+    Integer updateStatues(String empName);
 }
