@@ -1,6 +1,7 @@
 package com.pq.controller;
 
 import com.pq.pojo.BPM;
+import com.pq.pojo.Infor;
 import com.pq.service.BPMService;
 import com.pq.utils.ResultContent;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,13 +25,20 @@ public class BPMController {
             {
                     @ApiImplicitParam(paramType = "query", name = "empName", value = "申请人名字", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "deptName", value = "部门审批人名字", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "adminName", value = "公司审批人名字", required = true, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "describtion", value = "原因", required = false, dataType = "String")
+                    @ApiImplicitParam(paramType = "query", name = "empId", value = "用户ID", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "dept", value = "部门名称", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "in", value = "申请时间", required = false, dataType = "Date"),
+                    @ApiImplicitParam(paramType = "query", name = "title", value = "申请标题", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "detailres", value = "detailres", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "describtion", value = "描述", required = false, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "leave", value = "申请主题", required = false, dataType = "String")
+
             }
     )
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     @ResponseBody
-    public ResultContent startBPM(BPM bpm) {
+    public ResultContent startBPM(BPM bpm, Infor infor) {
+        bpm.setInfor(infor);
         return new ResultContent(0, "", bpmService.startBPM(bpm));
     }
 
@@ -51,12 +59,15 @@ public class BPMController {
     @ApiOperation(value = "拒绝", notes = "请求方式：GET" + "JAVA类：com.pq.service.bpmService "
             + "函数签名 ：ResultContent refuseBPM( " + "String name);")
     @ApiImplicitParams(
-                    @ApiImplicitParam(paramType = "query", name = "name", value = "处理人名字", required = true, dataType = "String")
+            {
+                    @ApiImplicitParam(paramType = "query", name = "handleName", value = "处理人名字", required = true, dataType = "String"),
+                    @ApiImplicitParam(paramType = "query", name = "startName", value = "开始人名字", required = true, dataType = "String")
+            }
     )
     @RequestMapping(value = "/refuse", method = RequestMethod.GET)
     @ResponseBody
-    public ResultContent refuseBPM(String name) {
-        return new ResultContent(0, "", bpmService.refuseBPM(name));
+    public ResultContent refuseBPM(String handleName, String startName) {
+        return new ResultContent(0, "", bpmService.refuseBPM(handleName,startName));
     }
 
     @ApiOperation(value = "查询当前任务", notes = "请求方式：GET" + "JAVA类：com.pq.service.bpmService "
@@ -69,5 +80,18 @@ public class BPMController {
     public ResultContent selectBpm(String name) {
         return new ResultContent(0, "", bpmService.selectBpm(name));
     }
+
+    @ApiOperation(value = "任务跟踪", notes = "请求方式：GET" + "JAVA类：com.pq.service.bpmService "
+            + "函数签名 ：ResultContent selectBpm( " + "String name);")
+    @ApiImplicitParams(
+            @ApiImplicitParam(paramType = "query", name = "name", value = "处理人名字", required = true, dataType = "String")
+    )
+    @RequestMapping(value = "/selectBpmTask", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultContent selectBpmTask(String name) {
+        return new ResultContent(0, "", bpmService.selectBpmTask(name));
+    }
+
+
 
 }

@@ -11,7 +11,10 @@ public interface BPMService {
 
     int completeBPM(String HandleName,String startName);
 
-    int refuseBPM(String name);
+    int refuseBPM(String HandleName, String startName);
 
     List<BpmTask> selectBpm(String name);
+
+    BpmTask selectBpmTask(String name);
 }
+

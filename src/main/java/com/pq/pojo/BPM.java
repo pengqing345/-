@@ -4,14 +4,14 @@ public class BPM {
     private String empName;
     private String deptName;
     private String adminName;
-    private String describtion;
+    private Infor infor;
 
-    public String getDescribtion() {
-        return describtion;
+    public Infor getInfor() {
+        return infor;
     }
 
-    public void setDescribtion(String describtion) {
-        this.describtion = describtion;
+    public void setInfor(Infor infor) {
+        this.infor = infor;
     }
 
     public String getEmpName() {

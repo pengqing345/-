@@ -3,10 +3,13 @@ package com.pq.service.impl;
 import com.pq.dao.UserMapper;
 import com.pq.pojo.BPM;
 import com.pq.pojo.BpmTask;
+import com.pq.pojo.Infor;
 import com.pq.pojo.Procedure;
 import com.pq.service.BPMService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ public class BPMServiceImpl implements BPMService {
     private ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml").buildProcessEngine();
     private TaskService taskService = processEngine.getTaskService();
     private HistoryService historyService = processEngine.getHistoryService();
+
   @Autowired
   private UserMapper userMapper;
 
@@ -34,7 +38,7 @@ public class BPMServiceImpl implements BPMService {
         bpm.setAdminName("狗李");
         RepositoryService repositoryService = processEngine.getRepositoryService();
         IdentityService identityService = processEngine.getIdentityService();
-        repositoryService.createDeployment().addClasspathResource("diagram/apply.bpmn20.xml").deploy();
+        repositoryService.createDeployment().addClasspathResource("diagrams/apply.bpmn20.xml").deploy();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("empName", bpm.getEmpName());
         map.put("deptName", bpm.getDeptName());
@@ -76,15 +80,15 @@ public class BPMServiceImpl implements BPMService {
 
     //拒绝申请
     @Override
-    public int refuseBPM(String name) {
+    public int refuseBPM(String HandleName, String startName) {
         Map<String, Object> variables = new HashMap<String, Object>();
         List<Task> list = processEngine.getTaskService()//
                 .createTaskQuery()//
-                .taskAssignee(name)//个人任务的查询
+                .taskAssignee(HandleName)//个人任务的查询
                 .list();
         if (list != null && list.size() > 0) {
             for (Task task : list) {
-                if (!historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult().getStartUserId().equals(name)) {
+                if (historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult().getStartUserId().equals(startName)) {
                     variables.put("message", "error");
                     taskService.complete(task.getId(), variables);
                 }
@@ -105,7 +109,7 @@ public class BPMServiceImpl implements BPMService {
             for (Task task : list) {
                 BpmTask bpmTask = new BpmTask();
                 String id = task.getId();
-                String describtion = (String) taskService.getVariable(id, "describtion");
+                Infor infor = (Infor) taskService.getVariable(id, "info");
                 String processInstanceId = (String) taskService.getVariable(id, "processInstanceId");
                 List<Procedure> procedureList = queryHistoricActivitiInstance(task.getProcessInstanceId());
                 String startUserId = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult().getStartUserId();//获取发起人
@@ -114,12 +118,70 @@ public class BPMServiceImpl implements BPMService {
                 bpmTask.setTaskId(id);
                 bpmTask.setHandleName(name);
                 bpmTask.setProcedureList(procedureList);
-                bpmTask.setDescribtion(describtion);
+                bpmTask.setInfor(infor);
                 bpmTaskList.add(bpmTask);
             }
         }
         return bpmTaskList;
 
+    }
+    //跟踪查询
+    @Override
+    public BpmTask selectBpmTask(String startName) {
+        BpmTask bpmTask = new BpmTask();
+
+
+
+        List<ProcessDefinition> list = processEngine.getRepositoryService()
+                .createProcessDefinitionQuery()
+                .orderByProcessDefinitionVersion().desc()
+                .list();//得到所有的流程
+        if(list != null && list.size() > 0){
+            for (ProcessDefinition p:list) {
+                ProcessInstance nowPi = processEngine.getRuntimeService()
+                        .createProcessInstanceQuery()
+                        .processDefinitionId(p.getId())
+                        .singleResult();
+                if (nowPi == null) {
+                    List<HistoricTaskInstance> list1 = processEngine.getHistoryService()
+                            .createHistoricTaskInstanceQuery()
+                            .processDefinitionId(p.getId()).list();
+                    if (list1 != null && list1.size() > 0) {
+                        for (HistoricTaskInstance hti : list1) {
+                            System.out.println(hti.getId() + "    " + hti.getName() + "   " + hti.getClaimTime());
+                            List<Procedure> procedureList = queryHistoricActivitiInstance(hti.getProcessInstanceId());
+                            for (Procedure procedure : procedureList) {
+                                if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
+                                    bpmTask.setProcessInstanceId(hti.getId());
+                                    bpmTask.setStartName(startName);
+                                    bpmTask.setStatus(1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+                if (nowPi != null) {
+                    List<Procedure> procedureList = queryHistoricActivitiInstance(nowPi.getProcessInstanceId());
+                    for (Procedure procedure : procedureList) {
+                        if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
+                            bpmTask.setProcessInstanceId(nowPi.getProcessInstanceId());
+                            bpmTask.setStartName(startName);
+                            bpmTask.setStatus(0);
+                            break;
+                        }
+                    }
+                }
+            }
+            if(bpmTask.getProcessInstanceId() != null&&!bpmTask.getProcessInstanceId().equals("0")){
+                List<Procedure> procedureList = queryHistoricActivitiInstance(bpmTask.getProcessInstanceId());
+                bpmTask.setProcedureList(procedureList);
+            }
+
+        }
+
+        return bpmTask;
     }
 
     //查询流程经历了多少任务
@@ -153,8 +215,8 @@ public class BPMServiceImpl implements BPMService {
                 if (taskService.getVariable(id, "processInstanceId") == null || taskService.getVariable(id, "processInstanceId").equals("")) {
                     taskService.setVariable(id, "processInstanceId", processInstanceId);
                 }
-                if (taskService.getVariable(id, "describtion") == null || taskService.getVariable(id, "describtion").equals("")) {
-                    taskService.setVariable(id, "describtion", bpm.getDescribtion());
+                if (taskService.getVariable(id, "info") == null || taskService.getVariable(id, "info").equals("")) {
+                    taskService.setVariable(id, "info", bpm.getInfor());
                 }
                 taskService.complete(id);
                 //String processInstanceId = (String)taskService.getVariable(id, "processInstanceId");
