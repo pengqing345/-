@@ -114,12 +114,14 @@ public class BPMServiceImpl implements BPMService {
                 String id = task.getId();
                 Infor infor = (Infor) taskService.getVariable(id, "info");
                 String processInstanceId = (String) taskService.getVariable(id, "processInstanceId");
+                Integer status = (Integer) taskService.getVariable(id, "status");
                 List<Procedure> procedureList = queryHistoricActivitiInstance(task.getProcessInstanceId());
                 String startUserId = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult().getStartUserId();//获取发起人
                 bpmTask.setStartName(startUserId);
                 bpmTask.setProcessInstanceId(processInstanceId);
                 bpmTask.setTaskId(id);
                 bpmTask.setHandleName(name);
+                bpmTask.setStatus(status);
                 bpmTask.setProcedureList(procedureList);
                 bpmTask.setInfor(infor);
                 bpmTaskList.add(bpmTask);
