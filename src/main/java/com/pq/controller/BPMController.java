@@ -39,9 +39,13 @@ public class BPMController {
     @ResponseBody
     public ResultContent startBPM(BPM bpm, Infor infor) {
         infor.setEmpName(bpm.getEmpName());
-        infor.setIn(infor.getIn().split("T")[0]);
-        infor.setLeave(infor.getLeave().split("T")[0]);
-        bpm.setInfor(infor);
+        if(infor.getIn() != null && !infor.getIn().equals("")) {
+            infor.setIn(infor.getIn().split("T")[0]);
+        }
+        if(infor.getLeave() != null && !infor.getLeave().equals("")) {
+            infor.setLeave(infor.getLeave().split("T")[0]);
+        }
+         bpm.setInfor(infor);
         return new ResultContent(0, "", bpmService.startBPM(bpm));
     }
 
