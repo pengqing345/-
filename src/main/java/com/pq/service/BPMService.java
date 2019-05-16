@@ -15,6 +15,6 @@ public interface BPMService {
 
     List<BpmTask> selectBpm(String name);
 
-    BpmTask selectBpmTask(String name);
+    List<BpmTask> selectBpmTask(String name);
 }
 
