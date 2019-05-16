@@ -1,19 +1,27 @@
 package com.pq.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Infor implements Serializable {
 
     private static final long serialVersionUID = 8379071759772449529L;
 
     private String empId;
+    private String empName;
     private String dept;
     private String in;
     private String title;
     private String leave;
     private String detailres;
     private String describtion;
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -29,10 +37,6 @@ public class Infor implements Serializable {
 
     public String getDept() {
         return dept;
-    }
-
-    public void setDeptName(String dept) {
-        this.dept = dept;
     }
 
     public void setDept(String dept) {

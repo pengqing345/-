@@ -70,6 +70,9 @@ public class BPMServiceImpl implements BPMService {
                             .singleResult();
                     if(nowPi == null){
                         System.out.println("流程结束");
+                        Integer status = (Integer)taskService.getVariable(task.getId(),"status");
+                        status = 1 ;
+                        taskService.setVariable(task.getId(),"status",status);
                         userMapper.updateStatues(startUserId);
                     }
                 }
@@ -149,12 +152,14 @@ public class BPMServiceImpl implements BPMService {
                     if (list1 != null && list1.size() > 0) {
                         for (HistoricTaskInstance hti : list1) {
                             System.out.println(hti.getId() + "    " + hti.getName() + "   " + hti.getClaimTime());
+                            Infor infor = (Infor) taskService.getVariable(hti.getId(), "info");
                             List<Procedure> procedureList = queryHistoricActivitiInstance(hti.getProcessInstanceId());
                             for (Procedure procedure : procedureList) {
                                 if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
                                     bpmTask.setProcessInstanceId(hti.getId());
                                     bpmTask.setStartName(startName);
                                     bpmTask.setStatus(1);
+                                    bpmTask.setInfor(infor);
                                     break;
                                 }
                             }
@@ -163,11 +168,13 @@ public class BPMServiceImpl implements BPMService {
 
                 }
                 if (nowPi != null) {
+                    Infor infor = (Infor) taskService.getVariable(p.getId(), "info");
                     List<Procedure> procedureList = queryHistoricActivitiInstance(nowPi.getProcessInstanceId());
                     for (Procedure procedure : procedureList) {
                         if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
                             bpmTask.setProcessInstanceId(nowPi.getProcessInstanceId());
                             bpmTask.setStartName(startName);
+                            bpmTask.setInfor(infor);
                             bpmTask.setStatus(0);
                             break;
                         }
@@ -217,6 +224,9 @@ public class BPMServiceImpl implements BPMService {
                 }
                 if (taskService.getVariable(id, "info") == null || taskService.getVariable(id, "info").equals("")) {
                     taskService.setVariable(id, "info", bpm.getInfor());
+                }
+                if (taskService.getVariable(id, "status") == null || taskService.getVariable(id, "status").equals("")) {
+                    taskService.setVariable(id, "status", 0);
                 }
                 taskService.complete(id);
                 //String processInstanceId = (String)taskService.getVariable(id, "processInstanceId");

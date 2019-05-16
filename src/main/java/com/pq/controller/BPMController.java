@@ -38,8 +38,9 @@ public class BPMController {
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     @ResponseBody
     public ResultContent startBPM(BPM bpm, Infor infor) {
-        infor.setIn(infor.getIn().split("G")[0]);
-        infor.setLeave(infor.getLeave().split("G")[0]);
+        infor.setEmpName(bpm.getEmpName());
+        infor.setIn(infor.getIn().split("T")[0]);
+        infor.setLeave(infor.getLeave().split("T")[0]);
         bpm.setInfor(infor);
         return new ResultContent(0, "", bpmService.startBPM(bpm));
     }
