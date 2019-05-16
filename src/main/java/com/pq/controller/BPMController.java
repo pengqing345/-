@@ -27,17 +27,19 @@ public class BPMController {
                     @ApiImplicitParam(paramType = "query", name = "deptName", value = "部门审批人名字", required = true, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "empId", value = "用户ID", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "dept", value = "部门名称", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "in", value = "申请时间", required = false, dataType = "Date"),
+                    @ApiImplicitParam(paramType = "query", name = "in", value = "申请时间", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "title", value = "申请标题", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "detailres", value = "detailres", required = false, dataType = "String"),
                     @ApiImplicitParam(paramType = "query", name = "describtion", value = "描述", required = false, dataType = "String"),
-                    @ApiImplicitParam(paramType = "query", name = "leave", value = "申请主题", required = false, dataType = "String")
+                    @ApiImplicitParam(paramType = "query", name = "leave", value = "离职时间", required = false, dataType = "String")
 
             }
     )
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     @ResponseBody
     public ResultContent startBPM(BPM bpm, Infor infor) {
+        infor.setIn(infor.getIn().split("G")[0]);
+        infor.setLeave(infor.getLeave().split("G")[0]);
         bpm.setInfor(infor);
         return new ResultContent(0, "", bpmService.startBPM(bpm));
     }

@@ -9,7 +9,7 @@ public class Infor implements Serializable {
 
     private String empId;
     private String dept;
-    private Date in;
+    private String in;
     private String title;
     private String leave;
     private String detailres;
@@ -35,11 +35,15 @@ public class Infor implements Serializable {
         this.dept = dept;
     }
 
-    public Date getIn() {
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public String getIn() {
         return in;
     }
 
-    public void setIn(Date in) {
+    public void setIn(String in) {
         this.in = in;
     }
 
