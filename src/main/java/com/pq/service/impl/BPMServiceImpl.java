@@ -9,6 +9,7 @@ import com.pq.service.BPMService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -152,16 +153,23 @@ public class BPMServiceImpl implements BPMService {
                     if (list1 != null && list1.size() > 0) {
                         for (HistoricTaskInstance hti : list1) {
                             System.out.println(hti.getId() + "    " + hti.getName() + "   " + hti.getClaimTime());
-                            Infor infor = (Infor) taskService.getVariable(hti.getId(), "info");
+                            List<HistoricVariableInstance> list2 = processEngine.getHistoryService()
+                                    .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询
+                                    .processInstanceId(hti.getProcessInstanceId())
+                                    .list();
+                            Infor infor = null;
+                            if (list != null && list.size() > 0) {
+                                for (HistoricVariableInstance hiv : list2) {
+                                     infor = (Infor) taskService.getVariable(hiv.getId(), "info");
+                                }
+                            }
                             List<Procedure> procedureList = queryHistoricActivitiInstance(hti.getProcessInstanceId());
                             for (Procedure procedure : procedureList) {
-
                                 if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
                                     bpmTask.setProcessInstanceId(hti.getId());
                                     bpmTask.setStartName(startName);
                                     bpmTask.setStatus(1);
                                     bpmTask.setInfor(infor);
-
                                     break;
                                 }
                             }
@@ -172,7 +180,8 @@ public class BPMServiceImpl implements BPMService {
                 if (nowPi != null) {
                     List<Task> tasks = taskService.createTaskQuery().processDefinitionId(p.getId()).list();
                     for (Task task:tasks) {
-                        Infor infor = (Infor) taskService.getVariable(task.getId(), "info");
+                        Task singleResult = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+                        Infor infor = (Infor) taskService.getVariable(singleResult.getId(), "info");
                         List<Procedure> procedureList = queryHistoricActivitiInstance(nowPi.getProcessInstanceId());
                         for (Procedure procedure : procedureList) {
                             if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
