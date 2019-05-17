@@ -71,9 +71,9 @@ public class BPMServiceImpl implements BPMService {
                             .singleResult();
                     if(nowPi == null){
                         System.out.println("流程结束");
-                        Integer status = (Integer)taskService.getVariable(task.getId(),"status");
+  /*                      Integer status = (Integer)taskService.getVariable(task.getId(),"status");
                         status = 1 ;
-                        taskService.setVariable(task.getId(),"status",status);
+                        taskService.setVariable(task.getId(),"status",status);*/
                         userMapper.updateStatues(startUserId);
                     }
                 }
@@ -135,13 +135,13 @@ public class BPMServiceImpl implements BPMService {
     @Override
     public List<BpmTask> selectBpmTask(String startName) {
         List<BpmTask> bpmTaskList = new ArrayList<>();
-        BpmTask bpmTask = new BpmTask();
         List<ProcessDefinition> list = processEngine.getRepositoryService()
                 .createProcessDefinitionQuery()
                 .orderByProcessDefinitionVersion().desc()
                 .list();//得到所有的流程
         if(list != null && list.size() > 0){
             for (ProcessDefinition p:list) {
+                BpmTask bpmTask = new BpmTask();
                 ProcessInstance nowPi = processEngine.getRuntimeService()
                         .createProcessInstanceQuery()
                         .processDefinitionId(p.getId())
@@ -160,10 +160,12 @@ public class BPMServiceImpl implements BPMService {
                             Infor infor = null;
                             if (list != null && list.size() > 0) {
                                 for (HistoricVariableInstance hiv : list2) {
-                                     infor = (Infor) taskService.getVariable(hiv.getId(), "info");
+                                     if(hiv.getVariableName().equals("info")){
+                                         infor = (Infor)hiv.getValue();
+                                     }
                                 }
                             }
-                            List<Procedure> procedureList = queryHistoricActivitiInstance(hti.getProcessInstanceId());
+                            List<Procedure> procedureList = queryHistoricActivitiInstance2(hti.getProcessDefinitionId());
                             for (Procedure procedure : procedureList) {
                                 if (procedure.getActivityName().equals("离职申请") && procedure.getAssignee().equals(startName)) {
                                     bpmTask.setProcessInstanceId(hti.getId());
@@ -194,12 +196,16 @@ public class BPMServiceImpl implements BPMService {
                     }
                     }
                 }
+                if(bpmTask.getProcessInstanceId() != null&&!bpmTask.getProcessInstanceId().equals("0")){
+                    List<Procedure> procedureList = queryHistoricActivitiInstance(bpmTask.getProcessInstanceId());
+                    bpmTask.setProcedureList(procedureList);
+                }
+                if(bpmTask.getStartName() != null){
+                    bpmTaskList.add(bpmTask);
+                }
+
             }
-            if(bpmTask.getProcessInstanceId() != null&&!bpmTask.getProcessInstanceId().equals("0")){
-                List<Procedure> procedureList = queryHistoricActivitiInstance(bpmTask.getProcessInstanceId());
-                bpmTask.setProcedureList(procedureList);
-            }
-           bpmTaskList.add(bpmTask);
+
         }
          return bpmTaskList;
     }
@@ -209,6 +215,23 @@ public class BPMServiceImpl implements BPMService {
         List<Procedure> procedureList = new ArrayList<>();
         //已进行了的流程信息
         List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).list();
+        if (list != null && list.size() > 0) {
+            for (HistoricActivityInstance hai : list) {
+                Procedure procedure = new Procedure();
+                procedure.setpId(hai.getId());//任务Id
+                procedure.setActivityId(hai.getActivityId());//步骤ID
+                procedure.setActivityName(hai.getActivityName());//步骤名称
+                procedure.setAssignee(hai.getAssignee());//执行人
+                procedureList.add(procedure);
+            }
+        }
+        return procedureList;
+    }
+    //查询历史活动任务流程
+    private List<Procedure> queryHistoricActivitiInstance2(String processDefinitionId){
+        List<Procedure> procedureList = new ArrayList<>();
+        //已进行了的流程信息
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery().processDefinitionId(processDefinitionId).list();
         if (list != null && list.size() > 0) {
             for (HistoricActivityInstance hai : list) {
                 Procedure procedure = new Procedure();
